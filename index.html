@@ -22,7 +22,12 @@
             align-items: center;
             padding: 10px;
         }
-        
+       .logo {
+  width: 120px;       /* size control */
+  height: auto;
+  float: left;        /* left side par */
+  margin-right: 15px; /* thoda gap text se */
+}
         .quotation-container {
             width: 100%;
             max-width: 1000px;
@@ -95,8 +100,21 @@
             width: 100px;
         }
         
-        .info-value {
-            font-weight: 500;
+        .header-input {
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-size: 14px;
+            width: 200px;
+            color: #2c3e50;
+        }
+        
+        .header-input:focus {
+            outline: none;
+            border-color: #4a6491;
+            box-shadow: 0 0 5px rgba(74, 100, 145, 0.5);
+            background: white;
         }
         
         .quotation-title {
@@ -218,6 +236,7 @@
             padding: 10px 15px;
             background-color: #f8f9fa;
             font-weight: 600;
+            color: black;
         }
         
         .summary-value {
@@ -303,11 +322,14 @@
         
         .signature-line {
             display: inline-block;
-            width: 200px;
+            width: 150px;
             border-bottom: 1px solid #aaa;
             margin-bottom: 5px;
         }
-        
+        .signature-line,.sign{
+            font-weight: bold;
+            padding-right: 12px;
+        }
         .action-buttons {
             display: flex;
             justify-content: center;
@@ -344,11 +366,153 @@
             color: white;
         }
         
+        .btn-reset {
+            background: linear-gradient(to bottom, #f39c12, #e67e22);
+            color: white;
+        }
+        
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
         
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .info-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .party-info {
+                text-align: left;
+            }
+            
+            .header-input {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .info-label {
+                width: 80px;
+                margin-bottom: 5px;
+            }
+            
+            .summary {
+                width: 100%;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .company-name {
+                font-size: 24px;
+            }
+            
+            .tagline, .deals {
+                font-size: 14px;
+            }
+            
+            .quotation-title {
+                font-size: 20px;
+                padding: 8px;
+            }
+            
+            .quotation-table {
+                font-size: 14px;
+            }
+            
+            .quotation-table th, 
+            .quotation-table td {
+                padding: 8px 6px;
+            }
+            
+            .quotation-table input {
+                padding: 6px;
+                font-size: 13px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .terms-section {
+                margin: 15px;
+                padding: 10px;
+            }
+            
+            .table-container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .watermark {
+                font-size: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .company-name {
+                font-size: 20px;
+            }
+            
+            .tagline, .deals {
+                font-size: 12px;
+            }
+            
+            .quotation-table {
+                font-size: 12px;
+            }
+            
+            .quotation-table th, 
+            .quotation-table td {
+                padding: 6px 4px;
+            }
+            
+            .quotation-table input {
+                padding: 4px;
+                font-size: 12px;
+            }
+            
+            .info-label {
+                width: 70px;
+                font-size: 14px;
+            }
+            
+            .header-input {
+                font-size: 14px;
+            }
+            
+            .terms-list li {
+                font-size: 14px;
+            }
+            
+            .footer {
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            .watermark {
+                font-size: 40px;
+            }
+            
+            .quotation-title {
+                font-size: 18px;
+            }
+        }
+
         /* Print-specific styles */
         @media print {
             body, html {
@@ -376,6 +540,14 @@
                 position: absolute;
                 left: 0;
                 top: 0;
+            }
+            
+            /* Hide input borders for print */
+            .header-input {
+                border: none;
+                background: transparent;
+                padding: 0;
+                width: auto;
             }
             
             /* Force background colors for print */
@@ -436,34 +608,6 @@
                 padding: 10px;
             }
         }
-        
-        @media (max-width: 768px) {
-            .info-section {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .party-info {
-                text-align: left;
-            }
-            
-            .summary {
-                width: 100%;
-            }
-            
-            .contact-info {
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .company-name {
-                font-size: 24px;
-            }
-            
-            .quotation-title {
-                font-size: 20px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -474,16 +618,17 @@
             <div class="tagline">Your Trusted Electronics Partner</div>
             <div class="deals">Deals in: ICs, Transistor, Module, LCD, Diode, Connector, SMD</div>
             <div class="deals">Industrial Parts, IC Programming and All Electronics Repairing</div>
+            <img class="logo" src="./2942f9_c34d7c33831c4eee9aaa5158a1622017~mv2.png" alt="Company Logo">
         </div>
         
         <div class="info-section">
             <div class="quotation-info">
-                <p><span class="info-label">Date:</span> <span class="info-value">19/8/2025</span></p>
-                <p><span class="info-label">Party Name:</span> <span class="info-value">Kohnlooß Textile Milk LTD.</span></p>
+                <p><span class="info-label">Date:</span> <input type="text" class="header-input" id="quotation-date" value="19/8/2025"></p>
+                <p><span class="info-label">Party Name:</span> <input type="text" class="header-input" id="party-name" value="Kohnlooß Textile Milk LTD."></p>
             </div>
             <div class="party-info">
-                <p><span class="info-label">NTN#:</span> <span class="info-value">9650940-6</span></p>
-                <p><span class="info-label">Quotation #:</span> <span class="info-value">QP-2025-0820</span></p>
+                <p><span class="info-label">NTN#:</span> <input type="text" class="header-input" id="ntn-number" value="9650940-6"></p>
+                <p><span class="info-label">Quotation #:</span> <input type="text" class="header-input" id="quotation-number" value="QP-2025-0820"></p>
             </div>
         </div>
         
@@ -504,30 +649,22 @@
                 <thead>
                     <tr>
                         <th width="5%">Sr.#</th>
-                        <th width="25%">Brand</th>
-                        <th width="35%">Description</th>
+                        <th width="80%">Description</th>
                         <th width="10%">Qty</th>
-                        <th width="15%">Rate (₹)</th>
-                        <th width="15%">Total (₹)</th>
+                        <th width="15%">Rate(PKR) </th>
+                        <th width="15%">Total(PKR) </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td><input type="text" value="PowerPro"></td>
+                        
                         <td><input type="text" value="Power Supply Adapter (input 110-220V output 5VDC)"></td>
                         <td><input type="number" value="1" class="qty"></td>
                         <td><input type="number" value="7500" class="rate"></td>
                         <td class="total">7500</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><input type="text" value="ISA" placeholder="Brand"></td>
-                        <td><input type="text" value="Plastic body adapter" placeholder="Description"></td>
-                        <td><input type="number" value="2" class="qty"></td>
-                        <td><input type="number" value="1200" class="rate"></td>
-                        <td class="total">2400</td>
-                    </tr>
+                   
                 </tbody>
             </table>
         </div>
@@ -536,7 +673,7 @@
             <div class="summary">
                 <div class="summary-row total-row">
                     <div class="summary-label">Total Amount</div>
-                    <div class="summary-value" id="total-amount">9900.00</div>
+                    <div class="summary-value" id="total-amount">00</div>
                 </div>
             </div>
         </div>
@@ -552,12 +689,12 @@
         </div>
         
         <div class="signature-area">
-            <div class="signature-line"></div>
+            <div class="signature-line"><p class="sign">Abid Hussain</p></div>
             <div>Authorized Signature</div>
         </div>
         
         <div class="footer">
-            <p>4/1, St# 1A, Peer Budhan Sha Dolan Wal, Multan Road Lahore</p>
+            <p>House No 3L, Street No 01, Bambi Stop, manga Mandi, Lahore</p>
             <div class="contact-info">
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
@@ -565,7 +702,7 @@
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
-                    <span>+92 XXX XXXXXXX</span>
+                    <span>+92 333-1317152/+92 300-1458122</span>
                 </div>
             </div>
         </div>
@@ -581,10 +718,18 @@
         <button class="btn btn-clear" onclick="clearForm()">
             <i class="fas fa-trash"></i> Clear Form
         </button>
+        <button class="btn btn-reset" onclick="resetHeaderFields()">
+            <i class="fas fa-redo"></i> Reset Header
+        </button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Set current date as default
+            const today = new Date();
+            const formattedDate = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
+            document.getElementById('quotation-date').value = formattedDate;
+            
             // Calculate initial totals
             calculateTotals();
             
@@ -595,6 +740,17 @@
             
             // Add row functionality
             document.getElementById('add-row').addEventListener('click', addNewRow);
+            
+            // Make inputs more mobile-friendly
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.fontSize = '16px'; // Prevent zoom on iOS
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.fontSize = '';
+                });
+            });
         });
         
         function addNewRow() {
@@ -605,7 +761,7 @@
             const newRow = tbody.insertRow();
             newRow.innerHTML = `
                 <td>${rowCount + 1}</td>
-                <td><input type="text" placeholder="Brand"></td>
+                
                 <td><input type="text" placeholder="Description"></td>
                 <td><input type="number" class="qty" value="1"></td>
                 <td><input type="number" class="rate" value="0"></td>
@@ -653,6 +809,13 @@
                 addNewRow(); // Add one empty row
                 calculateTotals();
             }
+        }
+        
+        function resetHeaderFields() {
+            document.getElementById('quotation-date').value = "";
+            document.getElementById('party-name').value = "";
+            document.getElementById('ntn-number').value = "";
+            document.getElementById('quotation-number').value = "";
         }
     </script>
 </body>
