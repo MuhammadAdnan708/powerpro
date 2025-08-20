@@ -22,12 +22,7 @@
             align-items: center;
             padding: 10px;
         }
-       .logo {
-  width: 120px;       /* size control */
-  height: auto;
-  float: left;        /* left side par */
-  margin-right: 15px; /* thoda gap text se */
-}
+        
         .quotation-container {
             width: 100%;
             max-width: 1000px;
@@ -56,6 +51,7 @@
             opacity: 0.08;
             color: white;
             pointer-events: none;
+            z-index: 0;
         }
         
         .company-name {
@@ -63,18 +59,24 @@
             font-weight: 800;
             margin-bottom: 5px;
             letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
         }
         
         .tagline {
             font-size: 16px;
             margin-bottom: 10px;
             opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
         
         .deals {
             font-size: 14px;
             margin-bottom: 5px;
             opacity: 0.8;
+            position: relative;
+            z-index: 1;
         }
         
         .info-section {
@@ -104,17 +106,35 @@
             background: transparent;
             border: 1px solid #ddd;
             border-radius: 4px;
-            padding: 5px 8px;
+            padding: 8px 12px;
             font-size: 14px;
             width: 200px;
             color: #2c3e50;
+            transition: all 0.3s ease;
         }
         
         .header-input:focus {
             outline: none;
             border-color: #4a6491;
-            box-shadow: 0 0 5px rgba(74, 100, 145, 0.5);
+            box-shadow: 0 0 8px rgba(74, 100, 145, 0.5);
             background: white;
+        }
+        
+        .date-input-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .date-input-container::after {
+            content: "\f073";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            pointer-events: none;
         }
         
         .quotation-title {
@@ -326,10 +346,12 @@
             border-bottom: 1px solid #aaa;
             margin-bottom: 5px;
         }
-        .signature-line,.sign{
+        
+        .signature-line, .sign {
             font-weight: bold;
             padding-right: 12px;
         }
+        
         .action-buttons {
             display: flex;
             justify-content: center;
@@ -374,6 +396,123 @@
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            body, html {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background: white !important;
+            }
+            
+            body * {
+                visibility: hidden;
+            }
+            
+            .quotation-container, .quotation-container * {
+                visibility: visible;
+            }
+            
+            .quotation-container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            
+            /* Convert inputs to text for printing */
+            .header-input {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                width: auto !important;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                color: #2c3e50 !important;
+                font-size: 14px !important;
+            }
+            
+            /* Hide date picker icon in print */
+            .date-input-container::after {
+                display: none !important;
+            }
+            
+            /* Show values as plain text in print */
+            #quotation-date, #party-name, #ntn-number, #quotation-number {
+                display: inline-block;
+                min-width: 150px;
+            }
+            
+            /* Format date specifically for print */
+            #quotation-date {
+                text-align: left;
+            }
+            
+            /* Force background colors for print */
+            .header {
+                background: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .quotation-title {
+                background: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .quotation-table th {
+                background: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .total-row {
+                background: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .footer {
+                background: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .action-buttons, .add-item-btn {
+                display: none !important;
+            }
+            
+            /* Adjust spacing for print */
+            .info-section {
+                padding: 10px 15px;
+            }
+            
+            .table-container {
+                padding: 5px 15px;
+            }
+            
+            .terms-section {
+                margin: 15px;
+                padding: 10px;
+            }
+            
+            .footer {
+                padding: 10px;
+            }
         }
         
         /* Mobile-specific styles */
@@ -493,6 +632,7 @@
             
             .header-input {
                 font-size: 14px;
+                padding: 6px 10px;
             }
             
             .terms-list li {
@@ -512,123 +652,30 @@
                 font-size: 18px;
             }
         }
-
-        /* Print-specific styles */
-        @media print {
-            body, html {
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                background: white !important;
-            }
-            
-            body * {
-                visibility: hidden;
-            }
-            
-            .quotation-container, .quotation-container * {
-                visibility: visible;
-            }
-            
-            .quotation-container {
-                width: 100%;
-                max-width: 100%;
-                margin: 0;
-                padding: 0;
-                box-shadow: none;
-                border-radius: 0;
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-            
-            /* Hide input borders for print */
-            .header-input {
-                border: none;
-                background: transparent;
-                padding: 0;
-                width: auto;
-            }
-            
-            /* Force background colors for print */
-            .header {
-                background: #2c3e50 !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .quotation-title {
-                background: #2c3e50 !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .quotation-table th {
-                background: #2c3e50 !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .total-row {
-                background: #2c3e50 !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .footer {
-                background: #2c3e50 !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .action-buttons, .add-item-btn {
-                display: none !important;
-            }
-            
-            /* Adjust spacing for print */
-            .info-section {
-                padding: 10px 15px;
-            }
-            
-            .table-container {
-                padding: 5px 15px;
-            }
-            
-            .terms-section {
-                margin: 15px;
-                padding: 10px;
-            }
-            
-            .footer {
-                padding: 10px;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="quotation-container">
         <div class="header">
             <div class="watermark">QUOTATION</div>
-            <div class="company-name">PowerPro ELECTRONICS ENGINEERING</div>
+            <div class="company-name">POWER⚡PRO ELECTRONICS ENGINEERING</div>
             <div class="tagline">Your Trusted Electronics Partner</div>
             <div class="deals">Deals in: ICs, Transistor, Module, LCD, Diode, Connector, SMD</div>
             <div class="deals">Industrial Parts, IC Programming and All Electronics Repairing</div>
-            <img class="logo" src="./2942f9_c34d7c33831c4eee9aaa5158a1622017~mv2.png" alt="Company Logo">
         </div>
         
         <div class="info-section">
             <div class="quotation-info">
-                <p><span class="info-label">Date:</span> <input type="text" class="header-input" id="quotation-date" value="19/8/2025"></p>
-                <p><span class="info-label">Party Name:</span> <input type="text" class="header-input" id="party-name" value="Kohnlooß Textile Milk LTD."></p>
+                <p><span class="info-label">Date:</span> 
+                    <span class="date-input-container">
+                        <input type="date" class="header-input" id="quotation-date">
+                    </span>
+                </p>
+                <p><span class="info-label">Party Name:</span> <input type="text" class="header-input" id="party-name" placeholder="Enter party name"></p>
             </div>
             <div class="party-info">
                 <p><span class="info-label">NTN#:</span> <input type="text" class="header-input" id="ntn-number" value="9650940-6"></p>
-                <p><span class="info-label">Quotation #:</span> <input type="text" class="header-input" id="quotation-number" value="QP-2025-0820"></p>
+                <p><span class="info-label">Quotation #:</span> <input type="text" class="header-input" id="quotation-number" placeholder="e.g., QP-2025-0820"></p>
             </div>
         </div>
         
@@ -649,22 +696,20 @@
                 <thead>
                     <tr>
                         <th width="5%">Sr.#</th>
-                        <th width="80%">Description</th>
+                        <th width="55%">Description</th>
                         <th width="10%">Qty</th>
-                        <th width="15%">Rate(PKR) </th>
-                        <th width="15%">Total(PKR) </th>
+                        <th width="15%">Rate(PKR)</th>
+                        <th width="15%">Total(PKR)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        
-                        <td><input type="text" value="Power Supply Adapter (input 110-220V output 5VDC)"></td>
-                        <td><input type="number" value="1" class="qty"></td>
-                        <td><input type="number" value="7500" class="rate"></td>
+                        <td><input type="text" value="Power Supply Adapter (input 110-220V output 5VDC)" placeholder="Item description"></td>
+                        <td><input type="number" value="1" class="qty" min="1"></td>
+                        <td><input type="number" value="7500" class="rate" min="0" step="0.01"></td>
                         <td class="total">7500</td>
                     </tr>
-                   
                 </tbody>
             </table>
         </div>
@@ -673,7 +718,7 @@
             <div class="summary">
                 <div class="summary-row total-row">
                     <div class="summary-label">Total Amount</div>
-                    <div class="summary-value" id="total-amount">00</div>
+                    <div class="summary-value" id="total-amount">7500.00</div>
                 </div>
             </div>
         </div>
@@ -702,7 +747,7 @@
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
-                    <span>+92 333-1317152/+92 300-1458122</span>
+                    <span>+92 333-1317152 / +92 300-1458122</span>
                 </div>
             </div>
         </div>
@@ -727,7 +772,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Set current date as default
             const today = new Date();
-            const formattedDate = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
+            const formattedDate = today.toISOString().substr(0, 10);
             document.getElementById('quotation-date').value = formattedDate;
             
             // Calculate initial totals
@@ -744,7 +789,9 @@
             // Make inputs more mobile-friendly
             document.querySelectorAll('input').forEach(input => {
                 input.addEventListener('focus', function() {
-                    this.style.fontSize = '16px'; // Prevent zoom on iOS
+                    if (window.innerWidth < 768) {
+                        this.style.fontSize = '16px'; // Prevent zoom on iOS
+                    }
                 });
                 
                 input.addEventListener('blur', function() {
@@ -761,10 +808,9 @@
             const newRow = tbody.insertRow();
             newRow.innerHTML = `
                 <td>${rowCount + 1}</td>
-                
-                <td><input type="text" placeholder="Description"></td>
-                <td><input type="number" class="qty" value="1"></td>
-                <td><input type="number" class="rate" value="0"></td>
+                <td><input type="text" placeholder="Item description"></td>
+                <td><input type="number" class="qty" value="1" min="1"></td>
+                <td><input type="number" class="rate" value="0" min="0" step="0.01"></td>
                 <td class="total">0</td>
             `;
             
@@ -816,6 +862,11 @@
             document.getElementById('party-name').value = "";
             document.getElementById('ntn-number').value = "";
             document.getElementById('quotation-number').value = "";
+            
+            // Set current date after reset
+            const today = new Date();
+            const formattedDate = today.toISOString().substr(0, 10);
+            document.getElementById('quotation-date').value = formattedDate;
         }
     </script>
 </body>
