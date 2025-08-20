@@ -348,20 +348,46 @@
         }
         
         @media print {
-            body {
-                background-color: white;
-                padding: 0;
-            }
-            
-            .quotation-container {
-                box-shadow: none;
-                border-radius: 0;
-            }
-            
-            .action-buttons, .add-item-btn {
-                display: none;
-            }
-        }
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4eaf1 100%) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .header {
+        background: linear-gradient(to right, #2c3e50, #4a6491) !important;
+        color: white !important;
+    }
+
+    .quotation-title {
+        background: linear-gradient(to right, #3498db, #2c3e50) !important;
+        color: white !important;
+    }
+
+    .quotation-note {
+        background-color: #e8f4fc !important;
+    }
+
+    .quotation-table th {
+        background: linear-gradient(to bottom, #2c3e50, #3c5670) !important;
+        color: white !important;
+    }
+
+    .total-row {
+        background: linear-gradient(to right, #2c3e50, #4a6491) !important;
+        color: white !important;
+    }
+
+    .footer {
+        background: linear-gradient(to right, #2c3e50, #4a6491) !important;
+        color: white !important;
+    }
+
+    .action-buttons, .add-item-btn {
+        display: none !important;
+    }
+}
+
         
         @media (max-width: 768px) {
             .info-section {
