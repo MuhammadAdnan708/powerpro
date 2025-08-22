@@ -371,17 +371,20 @@
         flex-direction: column;
         min-height: 100vh;
         justify-content: space-between;
-        page-break-after: always;
+        
+         page-break-after: avoid !important;
+    page-break-inside: avoid !important;
       }
       .quotation-container {
         flex: 1;
         box-shadow: none;
         border-radius: 0;
         margin: 0;
+        padding-bottom: 100px !important;
         page-break-inside: avoid;
       }
       .footer {
-        position: fixed;
+       position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
@@ -390,6 +393,7 @@
     padding: 10px;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    z-index: 9999;
       }
       .action-buttons, .add-item-btn { display: none !important; }
       .header-input {
