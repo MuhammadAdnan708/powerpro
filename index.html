@@ -93,7 +93,7 @@
       background-color: #f8f9fa;
       border-bottom: 1px solid #e0e0e0;
     }
-    .quotation-info{
+    .quotation-info {
       flex: 1;
     }
     .party-info { text-align: right; }
@@ -367,34 +367,25 @@
 
       .print-page {
         position: relative;
-        display: block;
+        display: flex;
         flex-direction: column;
         min-height: 100vh;
         justify-content: space-between;
-        
-         page-break-after: avoid !important;
-    page-break-inside: avoid !important;
+        page-break-after: always;
       }
       .quotation-container {
         flex: 1;
         box-shadow: none;
         border-radius: 0;
         margin: 0;
-        padding-bottom: 100px !important;
-        page-break-inside: avoid;
       }
       .footer {
-       position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #2c3e50 !important;
-    color: white !important;
-    padding: 10px;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    z-index: 9999;
-    display: none;
+        background: #2c3e50 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        padding: 10px;
+        page-break-inside: avoid;
       }
       .action-buttons, .add-item-btn { display: none !important; }
       .header-input {
