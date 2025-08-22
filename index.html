@@ -367,7 +367,7 @@
 
       .print-page {
         position: relative;
-        display: flex;
+        display: block;
         flex-direction: column;
         min-height: 100vh;
         justify-content: space-between;
@@ -378,6 +378,7 @@
         box-shadow: none;
         border-radius: 0;
         margin: 0;
+        page-break-inside: avoid;
       }
       .footer {
         background: #2c3e50 !important;
@@ -385,7 +386,10 @@
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         padding: 10px;
-        page-break-inside: avoid;
+      
+          page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: auto !important;
       }
       .action-buttons, .add-item-btn { display: none !important; }
       .header-input {
