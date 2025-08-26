@@ -19,12 +19,11 @@
       padding: 10px;
     }
 
-    /* Flex wrapper to push footer to bottom */
+    /* Flex wrapper */
     .print-page {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      justify-content: space-between;
     }
 
     .quotation-container {
@@ -36,11 +35,10 @@
       border-radius: 15px;
       overflow: hidden;
       display: flex;
-     
       flex-direction: column;
     }
 
-    /* ---- Header & Watermark ---- */
+    /* ---- Header ---- */
     .header {
       background: linear-gradient(to right, #2c3e50, #4a6491);
       color: white;
@@ -303,11 +301,17 @@
 
     /* ---- Footer ---- */
     .footer {
+      margin-top: auto; /* stick to bottom */
       background: linear-gradient(to right, #2c3e50, #4a6491);
       color: white;
       padding: 15px;
       text-align: center;
       font-size: 14px;
+      width: 100%;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 0 0 15px 15px;
     }
     .footer p {
       margin: 5px 0;
@@ -360,34 +364,44 @@
         margin: 0;
         padding: 0;
         background: white !important;
-        height: auto;
+        height: 100%;
       }
-      body * { visibility: hidden; }
-      .print-page, .print-page * { visibility: visible; }
-
+      body * { 
+        visibility: hidden; 
+      }
+      .print-page, .print-page * { 
+        visibility: visible; 
+      }
       .print-page {
+        display: block;
         position: relative;
-        display: flex;
-        flex-direction: column;
         min-height: 100vh;
-        justify-content: space-between;
-        page-break-after: always;
       }
       .quotation-container {
-        flex: 1;
         box-shadow: none;
         border-radius: 0;
-        margin: 0;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 100%;
       }
       .footer {
-        background: #2c3e50 !important;
-        color: white !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        padding: 10px;
-        page-break-inside: avoid;
+        position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    page-break-inside: avoid;
       }
-      .action-buttons, .add-item-btn { display: none !important; }
+ 
+
+      .action-buttons, .add-item-btn { 
+        display: none !important; 
+      }
       .header-input {
         border: none !important;
         background: transparent !important;
@@ -397,7 +411,9 @@
         color: #2c3e50 !important;
         font-size: 14px !important;
       }
-      .date-input-container::after { display: none !important; }
+      .date-input-container::after { 
+        display: none !important; 
+      }
       .header, .quotation-title, .quotation-table th, .total-row {
         background: #2c3e50 !important;
         color: white !important;
@@ -463,7 +479,7 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td><input type="text" value="Power Supply Adapter (input 110‑220V output 5VDC)" placeholder="Item description"></td>
+              <td><input type="text" value="Power Supply Adapter (input 110-220V output 5VDC)" placeholder="Item description"></td>
               <td><input type="number" value="1" class="qty" min="1"></td>
               <td><input type="number" value="7500" class="rate" min="0" step="0.01"></td>
               <td class="total">7500.00</td>
@@ -488,7 +504,7 @@
         <ul class="terms-list">
           <li><strong>Price:</strong> Prices are exclusive of all Government Taxes</li>
           <li><strong>Validity:</strong> 5 to 7 Days</li>
-          <li><strong>Delivery:</strong> Based on our Ex‑Stock</li>
+          <li><strong>Delivery:</strong> Based on our Ex-Stock</li>
           <li><strong>Payment:</strong> 100% ADVANCE</li>
         </ul>
       </div>
@@ -498,10 +514,7 @@
         <div class="signature-line"><p class="sign">Abid Hussain</p></div>
         <div>Authorized Signature</div>
       </div>
-    </div>
-
-    <!-- Footer (outside quotation-container) -->
-    <div class="footer">
+          <div class="footer">
       <p>House No 3L, Street No 01, Bambi Stop, manga Mandi, Lahore</p>
       <div class="contact-info">
         <div class="contact-item">
@@ -514,8 +527,11 @@
         </div>
       </div>
     </div>
-  </div>
+    </div>
 
+    <!-- Footer (now inside .print-page) -->
+
+  </div>
   <!-- Action Buttons -->
   <div class="action-buttons">
     <button class="btn btn-print" onclick="printQuotation()">
@@ -532,67 +548,86 @@
     </button>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const today = new Date();
-      const formattedDate = today.toISOString().substr(0, 10);
-      document.getElementById('quotation-date').value = formattedDate;
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date();
+    const formattedDate = today.toISOString().substr(0, 10);
+    document.getElementById('quotation-date').value = formattedDate;
 
-      calculateTotals();
-      document.querySelectorAll('.qty, .rate').forEach(input => input.addEventListener('input', calculateTotals));
-      document.getElementById('add-row').addEventListener('click', addNewRow);
+    calculateTotals();
+    document.querySelectorAll('.qty, .rate').forEach(input => input.addEventListener('input', calculateTotals));
+    document.getElementById('add-row').addEventListener('click', addNewRow);
 
-      document.querySelectorAll('input').forEach(input => {
-        input.addEventListener('focus', function () {
-          if (window.innerWidth < 768) this.style.fontSize = '16px';
-        });
-        input.addEventListener('blur', function () { this.style.fontSize = ''; });
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function () {
+        if (window.innerWidth < 768) this.style.fontSize = '16px';
       });
+      input.addEventListener('blur', function () { this.style.fontSize = ''; });
     });
+  });
 
-    function addNewRow() {
-      const tbody = document.querySelector('#items-table tbody');
-      const rowCount = tbody.rows.length;
-      const newRow = tbody.insertRow();
-      newRow.innerHTML = `
-        <td>${rowCount + 1}</td>
-        <td><input type="text" placeholder="Item description"></td>
-        <td><input type="number" class="qty" value="1" min="1"></td>
-        <td><input type="number" class="rate" value="0" min="0" step="0.01"></td>
-        <td class="total">0.00</td>
-      `;
-      newRow.querySelectorAll('.qty, .rate').forEach(input => input.addEventListener('input', calculateTotals));
+  function addNewRow() {
+    const tbody = document.querySelector('#items-table tbody');
+    const rowCount = tbody.rows.length;
+    const newRow = tbody.insertRow();
+    newRow.innerHTML = `
+      <td>${rowCount + 1}</td>
+      <td><input type="text" placeholder="Item description"></td>
+      <td><input type="number" class="qty" value="1" min="1"></td>
+      <td><input type="number" class="rate" value="0" min="0" step="0.01"></td>
+      <td class="total">0.00</td>
+    `;
+    newRow.querySelectorAll('.qty, .rate').forEach(input => input.addEventListener('input', calculateTotals));
+    calculateTotals();
+  }
+
+  function calculateTotals() {
+    let total = 0;
+    document.querySelectorAll('#items-table tbody tr').forEach(row => {
+      const qty = parseFloat(row.querySelector('.qty').value) || 0;
+      const rate = parseFloat(row.querySelector('.rate').value) || 0;
+      const lineTotal = qty * rate;
+      row.querySelector('.total').textContent = lineTotal.toFixed(2);
+      total += lineTotal;
+    });
+    document.getElementById('total-amount').textContent = total.toFixed(2);
+  }
+
+  function printQuotation() { window.print(); }
+  function downloadQuotation() { alert("Please use print → Save as PDF."); }
+  function clearForm() {
+    if (confirm("Are you sure you want to clear the entire quotation?")) {
+      document.querySelector('#items-table tbody').innerHTML = '';
+      addNewRow();
       calculateTotals();
     }
+  }
+  function resetHeaderFields() {
+    document.getElementById('quotation-date').value = "";
+    document.getElementById('party-name').value = "";
+    document.getElementById('ntn-number').value = "";
+    document.getElementById('quotation-number').value = "";
+    document.getElementById('quotation-date').value = new Date().toISOString().substr(0,10);
+  }
 
-    function calculateTotals() {
-      let total = 0;
-      document.querySelectorAll('#items-table tbody tr').forEach(row => {
-        const qty = parseFloat(row.querySelector('.qty').value) || 0;
-        const rate = parseFloat(row.querySelector('.rate').value) || 0;
-        const lineTotal = qty * rate;
-        row.querySelector('.total').textContent = lineTotal.toFixed(2);
-        total += lineTotal;
-      });
-      document.getElementById('total-amount').textContent = total.toFixed(2);
-    }
+  // === Footer Print Fix ===
+  window.onbeforeprint = () => {
+    // hide all footers
+    document.querySelectorAll(".footer").forEach(f => f.classList.add("hide-print"));
 
-    function printQuotation() { window.print(); }
-    function downloadQuotation() { alert("Please use print → Save as PDF."); }
-    function clearForm() {
-      if (confirm("Are you sure you want to clear the entire quotation?")) {
-        document.querySelector('#items-table tbody').innerHTML = '';
-        addNewRow();
-        calculateTotals();
-      }
+    // show only last footer
+    let footers = document.querySelectorAll(".footer");
+    if (footers.length > 0) {
+      footers[footers.length - 1].classList.remove("hide-print");
     }
-    function resetHeaderFields() {
-      document.getElementById('quotation-date').value = "";
-      document.getElementById('party-name').value = "";
-      document.getElementById('ntn-number').value = "";
-      document.getElementById('quotation-number').value = "";
-      document.getElementById('quotation-date').value = new Date().toISOString().substr(0,10);
-    }
-  </script>
+  };
+
+  window.onafterprint = () => {
+    // reset after printing
+    document.querySelectorAll(".footer").forEach(f => f.classList.remove("hide-print"));
+  };
+</script>
+
+
 </body>
 </html>
