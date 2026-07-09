@@ -3,631 +3,1231 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PowerPro Electronics - Quotation</title>
+  <title>PowerPro Electronics - Professional Quotation System</title>
+  <!-- Google Fonts for premium look -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Poppins:wght@300;400;500;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
-    /* --------- Base Styles --------- */
+    /* --------- Base & Layout Styles --------- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4eaf1 100%);
-      color: #2c3e50;
-      padding: 10px;
-    }
-
-    /* Flex wrapper */
-    .print-page {
-      display: flex;
-      flex-direction: column;
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .quotation-container {
+    /* App Workspace Container */
+    .app-container {
+      display: flex;
       width: 100%;
-      max-width: 1000px;
-      margin: 10px auto;
-      background: white;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      border-radius: 15px;
-      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* Left Editor Panel */
+    .editor-panel {
+      width: 460px;
+      background: #1e293b;
+      border-right: 1px solid #334155;
+      padding: 24px;
       display: flex;
       flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 5px 0 25px rgba(0, 0, 0, 0.3);
+      z-index: 10;
     }
 
-    /* ---- Header ---- */
-    .header {
-      background: linear-gradient(to right, #2c3e50, #4a6491);
-      color: white;
-      padding: 40px;
-      font-weight:bold;
-      text-align: center;
-      position: relative;
-    }
-    .watermark {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 80px;
-      font-weight: 800;
-      opacity: 0.08;
-      color: white;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .company-name {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 5px;
-      letter-spacing: 1px;
-      position: relative;
-      z-index: 1;
-    }
-    .tagline {
-      font-size: 16px;
-      margin-bottom: 10px;
-      opacity: 0.9;
-      position: relative;
-      z-index: 1;
-    }
-    .deals {
-      font-size: 14px;
-      margin-bottom: 5px;
-      opacity: 0.8;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ---- Info Section ---- */
-    .info-section {
+    /* Right Preview Panel */
+    .preview-panel {
+      flex-grow: 1;
+      background: #0f172a;
+      padding: 30px;
+      overflow-y: auto;
       display: flex;
-      justify-content: space-between;
-      padding: 15px 20px;
-      font-size: larger;
-      background-color: #f8f9fa;
-      border-bottom: 1px solid #e0e0e0;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      scroll-behavior: smooth;
     }
-    .quotation-info {
-      flex: 1;
+
+    /* Scrollbars */
+    .editor-panel::-webkit-scrollbar,
+    .preview-panel::-webkit-scrollbar {
+      width: 8px;
     }
-    .party-info { text-align: right; }
-    .info-label {
-      font-weight: bold;
-      color: #2c3e50;
-      display:inline-block;
-      width: 100px;
+    .editor-panel::-webkit-scrollbar-track,
+    .preview-panel::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.1);
     }
-    .header-input {
-      background: transparent;
-      border: 1px solid #ddd;
+    .editor-panel::-webkit-scrollbar-thumb,
+    .preview-panel::-webkit-scrollbar-thumb {
+      background: #475569;
       border-radius: 4px;
-      padding: 8px 12px;
-      font-size: 14px;
-      width: 200px;
-      color: #2c3e50;
-      transition: all 0.3s ease;
-    }
-    .header-input:focus {
-      outline: none;
-      border-color: #4a6491;
-      box-shadow: 0 0 8px rgba(74, 100, 145, 0.5);
-      background: white;
-    }
-    .date-input-container {
-      position: relative;
-      display: inline-block;
-    }
-    .date-input-container::after {
-      content: "\f073";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #7f8c8d;
-      pointer-events: none;
     }
 
-    /* ---- Title & Note ---- */
-    .quotation-title {
-      text-align: center;
-      padding: 10px;
-      background: linear-gradient(to right, #3498db, #2c3e50);
-      color: white;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-    .quotation-note {
-      text-align: center;
-      padding: 8px;
-      background-color: #e8f4fc;
-      font-style: italic;
-      border-bottom: 1px solid #d6eaf8;
-    }
-
-    /* ---- Table ---- */
-    .table-container {
-      padding: 10px 20px;
-      overflow-x: auto;
-    }
-    .quotation-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 15px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .quotation-table th {
-      background: linear-gradient(to bottom, #2c3e50, #3c5670);
-      color: white;
-      padding: 12px;
-      text-align: left;
-      font-weight: 600;
-    }
-    .quotation-table td {
-      padding: 10px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .quotation-table input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-      background: #f9f9f9;
-    }
-    .quotation-table input:focus {
-      outline: none;
-      border-color: #4a6491;
-      box-shadow: 0 0 5px rgba(74, 100, 145, 0.5);
-      background: white;
-    }
-    .quotation-table tr:nth-child(even) { background-color: #f9f9f9; }
-    .quotation-table tr:last-child td { border-bottom: none; }
-
-    /* ---- Buttons ---- */
-    .add-item-btn {
-      background: linear-gradient(to bottom, #27ae60, #219653);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      margin: 10px 0;
+    /* ---- Editor Typography & UI Components ---- */
+    h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: #38bdf8;
       display: flex;
       align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid #334155;
+      padding-bottom: 10px;
+    }
+    h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .form-section {
+      background: #0f172a;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #94a3b8;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea {
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+    
+    /* Item List Editor */
+    .item-list-container {
+      display: flex;
+      flex-direction: column;
       gap: 8px;
-      transition: all 0.3s;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 8px;
+      max-height: 250px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
-    .add-item-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    .item-editor-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
     }
-
-    /* ---- Summary ---- */
-    .summary-section {
+    .item-editor-row {
+      display: flex;
+      gap: 10px;
+    }
+    .item-editor-actions {
       display: flex;
       justify-content: flex-end;
-      padding: 0 20px;
-      margin-bottom: 15px;
+      gap: 8px;
+      border-top: 1px solid #334155;
+      padding-top: 8px;
     }
-    .summary {
-      width: 300px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      transition: all 0.2s;
     }
-    .summary-row {
-      display: flex;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .summary-row:last-child { border-bottom: none; }
-    .summary-label {
-      flex: 1;
-      padding: 10px 15px;
-      background-color: #f8f9fa;
-      font-weight: 600;
-      color: black;
-    }
-    .summary-value {
-      flex: 1;
-      padding: 10px 15px;
-      text-align: right;
-      font-weight: 500;
-    }
-    .total-row {
-      background: linear-gradient(to right, #2c3e50, #4a6491);
+    .icon-btn:hover {
       color: white;
-      font-weight: bold;
+      background: #475569;
+    }
+    .icon-btn.delete:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
     }
 
-    /* ---- Terms ---- */
-    .terms-section {
-      margin: 20px;
-      padding: 15px;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      border-left: 5px solid #3498db;
-    }
-    .terms-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #2c3e50;
-      border-bottom: 2px solid #3498db;
-      padding-bottom: 5px;
-    }
-    .terms-list {
-      list-style-type: none;
-    }
-    .terms-list li {
-      margin-bottom: 8px;
-      padding-left: 20px;
-      position: relative;
-    }
-    .terms-list li:before {
-      content: "•";
-      color: #3498db;
-      font-weight: bold;
-      position: absolute;
-      left: 0;
-    }
-
-    /* ---- Signature ---- */
-    .signature-area {
-      margin: 20px;
-      padding-top: 15px;
-      border-top: 1px dashed #ccc;
-      text-align: right;
-    }
-    .signature-line {
-      display: inline-block;
-      width: 150px;
-      border-bottom: 1px solid #aaa;
-      margin-bottom: 5px;
-      font-weight: bold;
-      padding-right: 12px;
-    }
-
-    /* ---- Footer ---- */
-    .footer {
-      margin-top: auto; /* stick to bottom */
-      background: linear-gradient(to right, #2c3e50, #4a6491);
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 14px;
-      width: 100%;
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-      border-radius: 0 0 15px 15px;
-    }
-    .footer p {
-      margin: 5px 0;
-    }
-    .contact-info {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
-    .contact-item {
+    /* Switch Component */
+    .switch-container {
       display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 22px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #475569;
+      transition: .3s;
+      border-radius: 22px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #38bdf8;
+    }
+    input:checked + .slider:before {
+      transform: translateX(22px);
     }
 
-    /* ---- Action Buttons ---- */
+    /* Action Buttons in Editor */
     .action-buttons {
       display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 20px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+      border-top: 1px solid #334155;
+      padding-top: 20px;
     }
     .btn {
-      padding: 10px 20px;
+      padding: 12px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
+      font-size: 14px;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       transition: all 0.3s;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    .btn-print { background: linear-gradient(to bottom, #2c3e50, #3c5670); color: white; }
-    .btn-download { background: linear-gradient(to bottom, #27ae60, #219653); color: white; }
-    .btn-clear { background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; }
-    .btn-reset { background: linear-gradient(to bottom, #f39c12, #e67e22); color: white; }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+    .btn-primary:hover {
+      background: #0ea5e9;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: #334155;
+      color: #f1f5f9;
+    }
+    .btn-secondary:hover {
+      background: #475569;
+    }
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    .btn-danger:hover {
+      background: #dc2626;
     }
 
-    /* -------- Print Styles -------- */
+    /* Add Item Form */
+    .add-item-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px dashed #475569;
+    }
+
+    /* -------- Preview Sheet Styles (A4 Page) -------- */
+    .receipt-page {
+      width: 210mm;
+      height: 297mm;
+      background: white;
+      color: #0b1f4c;
+      padding: 15mm 15mm;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* SVG logo and Watermark */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .watermark-container {
+      position: absolute;
+      top: 54%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 75%;
+      max-width: 420px;
+      opacity: 0.10;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    /* Header formatting */
+    .receipt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #0b1f4c;
+      padding-bottom: 10px;
+      z-index: 2;
+    }
+    .header-left {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .header-right {
+      width: 60%;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .header-title-main {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: #0b1f4c;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .header-sub-deals {
+      font-size: 9.5px;
+      color: #0b1f4c;
+      font-weight: bold;
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+    .header-phone {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0b1f4c;
+      margin-top: 4px;
+    }
+    
+    /* NTN Badge */
+    .ntn-badge {
+      background: #0b1f4c;
+      color: white;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 12px;
+      display: inline-block;
+      text-align: center;
+      align-self: flex-start;
+    }
+
+    /* Metadata details rows (Date, Quotation pill, No, Party Name) */
+    .receipt-metadata-section {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 2;
+    }
+    .meta-row-1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .date-field {
+      width: 35%;
+      font-size: 13.5px;
+      font-weight: bold;
+    }
+    .quotation-pill {
+      background: #0b1f4c;
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 20px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .number-field {
+      width: 30%;
+      text-align: right;
+      font-size: 13.5px;
+      font-weight: bold;
+    }
+    .meta-row-2 {
+      font-size: 13.5px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+    .underline-fill {
+      flex-grow: 1;
+      border-bottom: 1.5px solid #e05e5e;
+      margin-left: 6px;
+      font-weight: bold;
+      color: #0b1f4c;
+      font-size: 14px;
+      padding-bottom: 2px;
+    }
+    .underline-short {
+      border-bottom: 1.5px solid #e05e5e;
+      display: inline-block;
+      width: 100px;
+      text-align: center;
+      font-weight: bold;
+      padding-bottom: 2px;
+    }
+
+    /* Red Ledger Table */
+    .table-container {
+      margin-top: 15px;
+      flex-grow: 1;
+      z-index: 2;
+      position: relative;
+    }
+    .receipt-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid #e05e5e;
+    }
+    .receipt-table th {
+      background: #0b1f4c;
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 10px 6px;
+      text-transform: uppercase;
+      border: 1px solid #e05e5e;
+      text-align: center;
+    }
+    .receipt-table td {
+      border: 1px solid #e05e5e;
+      padding: 4px 10px;
+      font-size: 12.5px;
+      color: #000000;
+      vertical-align: middle;
+      height: 32px;
+    }
+    
+    /* Specific Column alignments */
+    .col-sr { text-align: center; font-weight: bold; }
+    .col-desc { text-align: left; font-weight: 600; }
+    .col-qty { text-align: center; font-weight: 600; }
+    .col-rate { text-align: right; font-weight: 600; }
+    .col-amount { text-align: right; font-weight: 600; }
+
+    /* Empty/Blank rows custom styling */
+    .empty-row td {
+      height: 32px;
+    }
+
+    /* Proprietor and Total Area (inside the table style layout) */
+    .proprietor-row td {
+      height: 75px;
+      position: relative;
+      vertical-align: middle;
+      padding: 6px 8px;
+    }
+    .proprietor-label {
+      text-align: center;
+      font-weight: 800;
+      font-size: 12px;
+      color: #0b1f4c;
+      text-transform: uppercase;
+    }
+    .total-label-cell {
+      text-align: right;
+      font-weight: 800;
+      font-size: 13px;
+      background: #f8fafc;
+      border-top: 2px solid #e05e5e;
+    }
+    .total-value-cell {
+      text-align: right;
+      font-weight: 800;
+      font-size: 13.5px;
+      background: #f8fafc;
+      border-top: 2px solid #e05e5e;
+    }
+
+    /* Stamp Styling */
+    .stamp-container {
+      display: none; /* toggled by show-stamp class */
+      margin: 0 auto 4px auto;
+      text-align: center;
+    }
+    .receipt-page.show-stamp .stamp-container {
+      display: block;
+    }
+    .stamp-box {
+      display: inline-block;
+      border: 2px solid #1a3b8b;
+      outline: 1px solid #1a3b8b;
+      outline-offset: 3px;
+      padding: 8px 16px;
+      color: #1a3b8b;
+      background: rgba(220, 230, 255, 0.12);
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1.5;
+      min-width: 140px;
+    }
+    .stamp-name-line {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      color: #1a3b8b;
+    }
+    .stamp-divider {
+      border-bottom: 1px solid #1a3b8b;
+      margin: 5px 0;
+    }
+    .stamp-proprietor {
+      text-align: right;
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a3b8b;
+    }
+
+    /* Footer styling */
+    .receipt-footer-section {
+      margin-top: 15px;
+      border-top: 1px solid #e05e5e;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      font-weight: 700;
+      font-style: italic;
+    }
+    .footer-address {
+      font-size: 10px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+    .footer-email {
+      font-size: 9.5px;
+      font-weight: 800;
+      text-align: center;
+      color: #0b1f4c;
+    }
+    .signature-line-area {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* Pagination Indicator (Screen only) */
+    .page-indicator {
+      align-self: flex-end;
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: -10px;
+      border: 1px solid #334155;
+    }
+
+    /* -------- Print-Specific Styling -------- */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
     @media print {
       body, html {
-        margin: 0;
-        padding: 0;
         background: white !important;
-        height: 100%;
-      }
-      body * { 
-        visibility: hidden; 
-      }
-      .print-page, .print-page * { 
-        visibility: visible; 
-      }
-      .print-page {
-        display: block;
-        position: relative;
-        min-height: 100vh;
-      }
-      .quotation-container {
-        box-shadow: none;
-        border-radius: 0;
-        margin: 0 auto;
-        width: 100%;
-        max-width: 100%;
-      }
-      .footer {
-        position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-width: 100%;
-    border-radius: 0;
-    margin: 0;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    page-break-inside: avoid;
-      }
- 
-
-      .action-buttons, .add-item-btn { 
-        display: none !important; 
-      }
-      .header-input {
-        border: none !important;
-        background: transparent !important;
+        color: black !important;
+        margin: 0 !important;
         padding: 0 !important;
-        width: auto !important;
-        appearance: none;
-        color: #2c3e50 !important;
-        font-size: 14px !important;
+        height: auto !important;
+        overflow: visible !important;
       }
-      .date-input-container::after { 
-        display: none !important; 
+      .app-container {
+        display: block !important;
+        height: auto !important;
       }
-      .header, .quotation-title, .quotation-table th, .total-row {
-        background: #2c3e50 !important;
+      .editor-panel {
+        display: none !important; /* Hide editor on print */
+      }
+      .preview-panel {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+      .receipt-page {
+        box-shadow: none !important;
+        margin: 0 !important;
+        border: none !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        overflow: hidden !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .receipt-table th {
+        background: #0b1f4c !important;
         color: white !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .stamp-box {
+        border: 2px solid #1a3b8b !important;
+        outline: 1px solid #1a3b8b !important;
+        color: #1a3b8b !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .page-indicator {
+        display: none !important;
+      }
+    }
+
+    /* Responsive stacked layout for small screens */
+    @media (max-width: 1024px) {
+      .app-container {
+        flex-direction: column;
+        height: auto;
+      }
+      .editor-panel {
+        width: 100%;
+        height: auto;
+        max-height: 600px;
+        border-right: none;
+        border-bottom: 1px solid #334155;
+      }
+      .preview-panel {
+        width: 100%;
+        overflow-y: visible;
+        padding: 15px;
+      }
+      .receipt-page {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1.414;
+        min-height: auto;
+        padding: 5%;
       }
     }
   </style>
 </head>
 <body>
-  <div class="print-page">
-    <div class="quotation-container">
-      <!-- Header -->
-      <div class="header">
-        <div class="watermark">QUOTATION</div>
-        <div class="company-name">POWER⚡PRO ELECTRONICS ENGINEERING</div>
-        <div class="tagline">Your Trusted Electronics Partner</div>
-        <div class="deals">Deals in: ICs, Transistor, Module, LCD, Diode, Connector, SMD</div>
-        <div class="deals">Industrial Parts, IC Programming and All Electronics Repairing</div>
-      </div>
 
-      <!-- Info Section -->
-      <div class="info-section">
-        <div class="quotation-info">
-          <p><span class="info-label">Date:</span>
-            <span class="date-input-container">
-              <input type="date" class="header-input" id="quotation-date">
-            </span>
-          </p>
-          <p><span class="info-label">M/S Name:</span>
-            <input type="text" class="header-input" id="party-name" placeholder="Enter party name">
-          </p>
-        </div>
-        <div class="quotation-infos">
-          <p><span class="info-label">NTN:</span>
-            <input type="text" class="header-input" id="ntn-number" value="9650940-6">
-          </p>
-          <p><span class="info-label">Quotation:</span>
-            <input type="text" class="header-input" id="quotation-number" placeholder="e.g., QP-2025-0820">
-          </p>
-        </div>
-      </div>
+  <!-- SVG Distressed Filter for Ink Stamp (Hidden from view) -->
+  <svg style="position: absolute; width: 0; height: 0;">
+    <defs>
+      <filter id="stamp-distress">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
 
-      <!-- Title & Note -->
-      <div class="quotation-title">QUOTATION</div>
-      <div class="quotation-note">We quote our best prices, for further details please contact us</div>
-
-      <!-- Table -->
-      <div class="table-container">
-        <button class="add-item-btn" id="add-row">
-          <i class="fas fa-plus-circle"></i> Add New Item
-        </button>
-        <table class="quotation-table" id="items-table">
-          <thead>
-            <tr>
-              <th width="5%">Sr.#</th>
-              <th width="55%">Description</th>
-              <th width="10%">Qty</th>
-              <th width="15%">Rate(PKR)</th>
-              <th width="15%">Total(PKR)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td><input type="text" value="Power Supply Adapter (input 110-220V output 5VDC)" placeholder="Item description"></td>
-              <td><input type="number" value="1" class="qty" min="1"></td>
-              <td><input type="number" value="7500" class="rate" min="0" step="0.01"></td>
-              <td class="total">7500.00</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Summary -->
-      <div class="summary-section">
-        <div class="summary">
-          <div class="summary-row total-row">
-            <div class="summary-label">Total Amount</div>
-            <div class="summary-value" id="total-amount">7500.00</div>
+  <div class="app-container">
+    
+    <!-- LEFT PANEL: CONTROL PANEL -->
+    <div class="editor-panel">
+      <h2><i class="fas fa-file-invoice-dollar"></i> Quotation Pad</h2>
+      
+      <!-- General Form Metadata -->
+      <div class="form-section">
+        <h3>Quotation Info</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="input-date">Date</label>
+            <input type="date" id="input-date">
+          </div>
+          <div class="form-group">
+            <label for="input-no">Quotation No #</label>
+            <input type="text" id="input-no" placeholder="313">
+          </div>
+          <div class="form-group full-width">
+            <label for="input-party">Party Name</label>
+            <input type="text" id="input-party" placeholder="Nishat mills LTD #27">
+          </div>
+          <div class="form-group">
+            <label for="input-ntn">NTN #</label>
+            <input type="text" id="input-ntn" placeholder="9650940-6">
+          </div>
+          <div class="form-group">
+            <label for="input-sig">Signature Name</label>
+            <input type="text" id="input-sig" placeholder="Abid Hussain">
           </div>
         </div>
       </div>
 
-      <!-- Terms -->
-      <div class="terms-section">
-        <div class="terms-title">Terms & Conditions</div>
-        <ul class="terms-list">
-          <li><strong>Price:</strong> Prices are exclusive of all Government Taxes</li>
-          <li><strong>Validity:</strong> 5 to 7 Days</li>
-          <li><strong>Delivery:</strong> Based on our Ex-Stock</li>
-          <li><strong>Payment:</strong> 100% ADVANCE</li>
-        </ul>
-      </div>
-
-      <!-- Signature -->
-      <div class="signature-area">
-        <div class="signature-line"><p class="sign">Abid Hussain</p></div>
-        <div>Authorized Signature</div>
-      </div>
-          <div class="footer">
-      <p>House No 3L, Street No 01, Bambi Stop, manga Mandi, Lahore</p>
-      <div class="contact-info">
-        <div class="contact-item">
-          <i class="fas fa-envelope"></i>
-          <span>powerproelectronicsengineering@gmail.com</span>
-        </div>
-        <div class="contact-item">
-          <i class="fas fa-phone"></i>
-          <span>+92 333-1317152 / +92 300-1458122</span>
+      <!-- Stamp Option -->
+      <div class="form-section">
+        <div class="switch-container">
+          <label style="font-weight: 600; font-size: 13px; color: #38bdf8;" for="toggle-stamp-input">Apply Blue Proprietor Stamp</label>
+          <label class="switch">
+            <input type="checkbox" id="toggle-stamp-input" checked>
+            <span class="slider"></span>
+          </label>
         </div>
       </div>
-    </div>
+
+      <!-- Add New Item Form -->
+      <div class="form-section">
+        <h3>Add Quotation Item</h3>
+        <div class="add-item-form">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="item-desc">Particulars (Description)</label>
+            <textarea id="item-desc" rows="2" placeholder="e.g. corolab Jeck 4 pin with wire for Accog"></textarea>
+          </div>
+          <div class="form-grid" style="margin-top: 5px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="item-qty">Qty</label>
+              <input type="number" id="item-qty" value="1" min="1">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="item-rate">Rate (PKR)</label>
+              <input type="number" id="item-rate" value="0" min="0" step="1">
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btn-add-item" style="margin-top: 10px; width: 100%;">
+            <i class="fas fa-plus"></i> Add to List
+          </button>
+        </div>
+      </div>
+
+      <!-- Items List & Reorder -->
+      <div class="form-section" style="flex-grow: 1; min-height: 150px; display: flex; flex-direction: column;">
+        <h3>Items Added (<span id="items-count">0</span>)</h3>
+        <div class="item-list-container" id="editor-items-list">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-buttons">
+        <button class="btn btn-primary" onclick="printReceipt()">
+          <i class="fas fa-print"></i> Print / Save PDF
+        </button>
+        <button class="btn btn-secondary" onclick="resetForm()">
+          <i class="fas fa-undo"></i> Reset Default
+        </button>
+        <button class="btn btn-danger" onclick="clearAllItems()">
+          <i class="fas fa-trash-alt"></i> Clear All Items
+        </button>
+      </div>
+
     </div>
 
-    <!-- Footer (now inside .print-page) -->
+    <!-- RIGHT PANEL: HIGH-FIDELITY LIVE PREVIEW -->
+    <div class="preview-panel" id="preview-panel">
+      <!-- Dynamically populated A4 receipt sheets (using pagination) -->
+    </div>
 
   </div>
-  <!-- Action Buttons -->
-  <div class="action-buttons">
-    <button class="btn btn-print" onclick="printQuotation()">
-      <i class="fas fa-print"></i> Print Quotation
-    </button>
-    <button class="btn btn-download" onclick="downloadQuotation()">
-      <i class="fas fa-download"></i> Download PDF
-    </button>
-    <button class="btn btn-clear" onclick="clearForm()">
-      <i class="fas fa-trash"></i> Clear Form
-    </button>
-    <button class="btn btn-reset" onclick="resetHeaderFields()">
-      <i class="fas fa-redo"></i> Reset Header
-    </button>
-  </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const today = new Date();
-    const formattedDate = today.toISOString().substr(0, 10);
-    document.getElementById('quotation-date').value = formattedDate;
+  <script>
+    // System State
+    const state = {
+      date: new Date().toISOString().substr(0, 10),
+      quotationNo: '313',
+      partyName: 'Nishat mills LTD #27',
+      ntn: '9650940-6',
+      signatureName: 'Abid Hussain',
+      showStamp: true,
+      items: [
+        { description: 'corolab Jeck 4 pin with wire for Accog', qty: 50, rate: 1500 }
+      ]
+    };
 
-    calculateTotals();
-    document.querySelectorAll('.qty, .rate').forEach(input => input.addEventListener('input', calculateTotals));
-    document.getElementById('add-row').addEventListener('click', addNewRow);
+    // DOM Elements
+    const inputDate = document.getElementById('input-date');
+    const inputNo = document.getElementById('input-no');
+    const inputParty = document.getElementById('input-party');
+    const inputNtn = document.getElementById('input-ntn');
+    const inputSig = document.getElementById('input-sig');
+    const toggleStamp = document.getElementById('toggle-stamp-input');
+    
+    const itemDesc = document.getElementById('item-desc');
+    const itemQty = document.getElementById('item-qty');
+    const itemRate = document.getElementById('item-rate');
+    const btnAddItem = document.getElementById('btn-add-item');
+    const editorItemsList = document.getElementById('editor-items-list');
+    const itemsCountEl = document.getElementById('items-count');
+    const previewPanel = document.getElementById('preview-panel');
 
-    document.querySelectorAll('input').forEach(input => {
-      input.addEventListener('focus', function () {
-        if (window.innerWidth < 768) this.style.fontSize = '16px';
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sync form with initial state
+      inputDate.value = state.date;
+      inputNo.value = state.quotationNo;
+      inputParty.value = state.partyName;
+      inputNtn.value = state.ntn;
+      inputSig.value = state.signatureName;
+      toggleStamp.checked = state.showStamp;
+
+      // Event Listeners for Editor
+      inputDate.addEventListener('input', (e) => { state.date = e.target.value; render(); });
+      inputNo.addEventListener('input', (e) => { state.quotationNo = e.target.value; render(); });
+      inputParty.addEventListener('input', (e) => { state.partyName = e.target.value; render(); });
+      inputNtn.addEventListener('input', (e) => { state.ntn = e.target.value; render(); });
+      inputSig.addEventListener('input', (e) => { state.signatureName = e.target.value; render(); });
+      toggleStamp.addEventListener('change', (e) => { state.showStamp = e.target.checked; render(); });
+
+      btnAddItem.addEventListener('click', addItem);
+
+      // Perform initial render
+      render();
+    });
+
+    // Format Date beautifully to match handwriting
+    function formatDateString(dateStr) {
+      if (!dateStr) return '';
+      const date = new Date(dateStr);
+      if (isNaN(date)) return dateStr;
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    }
+
+    // Add Item to State
+    function addItem() {
+      const desc = itemDesc.value.trim();
+      const qty = parseInt(itemQty.value) || 1;
+      const rate = parseFloat(itemRate.value) || 0;
+
+      if (!desc) {
+        alert('Please enter an item description.');
+        itemDesc.focus();
+        return;
+      }
+
+      state.items.push({ description: desc, qty, rate });
+      
+      // Reset Item Fields
+      itemDesc.value = '';
+      itemQty.value = '1';
+      itemRate.value = '0';
+      itemDesc.focus();
+
+      render();
+    }
+
+    // Delete Item
+    function deleteItem(index) {
+      state.items.splice(index, 1);
+      render();
+    }
+
+    // Move Item Up
+    function moveItemUp(index) {
+      if (index === 0) return;
+      const temp = state.items[index];
+      state.items[index] = state.items[index - 1];
+      state.items[index - 1] = temp;
+      render();
+    }
+
+    // Move Item Down
+    function moveItemDown(index) {
+      if (index === state.items.length - 1) return;
+      const temp = state.items[index];
+      state.items[index] = state.items[index + 1];
+      state.items[index + 1] = temp;
+      render();
+    }
+
+    // Clear All Items
+    function clearAllItems() {
+      if (confirm('Are you sure you want to delete all items?')) {
+        state.items = [];
+        render();
+      }
+    }
+
+    // Reset Default State
+    function resetForm() {
+      if (confirm('Reset form fields to default?')) {
+        state.date = new Date().toISOString().substr(0, 10);
+        state.quotationNo = '313';
+        state.partyName = 'Nishat mills LTD #27';
+        state.ntn = '9650940-6';
+        state.signatureName = 'Abid Hussain';
+        state.showStamp = true;
+        state.items = [
+          { description: 'corolab Jeck 4 pin with wire for Accog', qty: 50, rate: 1500 }
+        ];
+
+        inputDate.value = state.date;
+        inputNo.value = state.quotationNo;
+        inputParty.value = state.partyName;
+        inputNtn.value = state.ntn;
+        inputSig.value = state.signatureName;
+        toggleStamp.checked = state.showStamp;
+
+        render();
+      }
+    }
+
+    // Print Receipt Page
+    function printReceipt() {
+      window.print();
+    }
+
+    // Main Render Function
+    function render() {
+      // 1. Render Editor Items List
+      renderEditorItems();
+
+      // 2. Render A4 Print Preview Pages
+      renderPreviewSheets();
+    }
+
+    // Render Items inside Left Editor panel
+    function renderEditorItems() {
+      editorItemsList.innerHTML = '';
+      itemsCountEl.textContent = state.items.length;
+
+      state.items.forEach((item, index) => {
+        const itemCard = document.createElement('div');
+        itemCard.className = 'item-editor-card';
+        itemCard.innerHTML = `
+          <div style="font-size: 13.5px; font-weight: 600; word-break: break-word;">
+            ${index + 1}. ${item.description}
+          </div>
+          <div class="item-editor-row" style="font-size: 12px; color: #94a3b8;">
+            <div>Qty: <span style="color: white; font-weight:600;">${item.qty}</span></div>
+            <div>Rate: <span style="color: white; font-weight:600;">${item.rate} PKR</span></div>
+            <div style="margin-left: auto;">Total: <span style="color: #38bdf8; font-weight:600;">${(item.qty * item.rate).toFixed(2)} PKR</span></div>
+          </div>
+          <div class="item-editor-actions">
+            <button class="icon-btn" onclick="moveItemUp(${index})" title="Move Up"><i class="fas fa-chevron-up"></i></button>
+            <button class="icon-btn" onclick="moveItemDown(${index})" title="Move Down"><i class="fas fa-chevron-down"></i></button>
+            <button class="icon-btn delete" onclick="deleteItem(${index})" title="Delete"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        `;
+        editorItemsList.appendChild(itemCard);
       });
-      input.addEventListener('blur', function () { this.style.fontSize = ''; });
-    });
-  });
-
-  function addNewRow() {
-    const tbody = document.querySelector('#items-table tbody');
-    const rowCount = tbody.rows.length;
-    const newRow = tbody.insertRow();
-    newRow.innerHTML = `
-      <td>${rowCount + 1}</td>
-      <td><input type="text" placeholder="Item description"></td>
-      <td><input type="number" class="qty" value="1" min="1"></td>
-      <td><input type="number" class="rate" value="0" min="0" step="0.01"></td>
-      <td class="total">0.00</td>
-    `;
-    newRow.querySelectorAll('.qty, .rate').forEach(input => input.addEventListener('input', calculateTotals));
-    calculateTotals();
-  }
-
-  function calculateTotals() {
-    let total = 0;
-    document.querySelectorAll('#items-table tbody tr').forEach(row => {
-      const qty = parseFloat(row.querySelector('.qty').value) || 0;
-      const rate = parseFloat(row.querySelector('.rate').value) || 0;
-      const lineTotal = qty * rate;
-      row.querySelector('.total').textContent = lineTotal.toFixed(2);
-      total += lineTotal;
-    });
-    document.getElementById('total-amount').textContent = total.toFixed(2);
-  }
-
-  function printQuotation() { window.print(); }
-  function downloadQuotation() { alert("Please use print → Save as PDF."); }
-  function clearForm() {
-    if (confirm("Are you sure you want to clear the entire quotation?")) {
-      document.querySelector('#items-table tbody').innerHTML = '';
-      addNewRow();
-      calculateTotals();
     }
-  }
-  function resetHeaderFields() {
-    document.getElementById('quotation-date').value = "";
-    document.getElementById('party-name').value = "";
-    document.getElementById('ntn-number').value = "";
-    document.getElementById('quotation-number').value = "";
-    document.getElementById('quotation-date').value = new Date().toISOString().substr(0,10);
-  }
 
-  // === Footer Print Fix ===
-  window.onbeforeprint = () => {
-    // hide all footers
-    document.querySelectorAll(".footer").forEach(f => f.classList.add("hide-print"));
+    // Render dynamic A4 pages based on pagination logic (10 items max per page)
+    function renderPreviewSheets() {
+      previewPanel.innerHTML = '';
+      const itemsPerPage = 10;
+      const totalItems = state.items.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
 
-    // show only last footer
-    let footers = document.querySelectorAll(".footer");
-    if (footers.length > 0) {
-      footers[footers.length - 1].classList.remove("hide-print");
+      // Calculate Grand Total
+      const grandTotal = state.items.reduce((sum, item) => sum + (item.qty * item.rate), 0);
+
+      // Render each page
+      for (let pageIdx = 0; pageIdx < totalPages; pageIdx++) {
+        const isLastPage = (pageIdx === totalPages - 1);
+        
+        // Header HTML
+        const headerHTML = `
+          <div class="receipt-header">
+            <div class="header-left">
+              <div class="logo-container">
+                <svg viewBox="0 0 160 50" class="logo-svg" style="height: 52px; width: auto;">
+                  <!-- Shield logo background/stroke -->
+                  <g transform="translate(64, 2)">
+                    <path d="M 12 2 C 18 2, 22 4, 22 4 C 22 15, 18 22, 12 26 C 6 22, 2 15, 2 4 C 2 4, 6 2, 12 2 Z" fill="#ffffff" stroke="#0b1f4c" stroke-width="2"/>
+                    <path d="M 12 5 L 8 13 L 13 13 L 11 22 L 17 12 L 12 12 Z" fill="#e05e5e"/>
+                  </g>
+                  <text x="0" y="24" font-family="'Montserrat', sans-serif" font-weight="900" font-style="italic" font-size="21" fill="#0b1f4c">Power</text>
+                  <text x="94" y="24" font-family="'Montserrat', sans-serif" font-weight="900" font-style="italic" font-size="21" fill="#0b1f4c">Pro</text>
+                  <text x="0" y="42" font-family="'Montserrat', sans-serif" font-weight="700" font-size="7.5" fill="#0b1f4c" letter-spacing="1.8">ELECTRONICS ENGINEERING</text>
+                </svg>
+              </div>
+              <div class="ntn-badge">NTN# ${state.ntn || '9650940-6'}</div>
+            </div>
+            <div class="header-right">
+              <div class="header-title-main">POWER PRO ELECTRONICS</div>
+              <div class="header-title-main" style="margin-top: -2px;">ENGINEERING</div>
+              <div class="header-sub-deals">
+                Deals in: Ics, Transistor, Module, LCD, Diode, Connector, SMD<br>
+                Industrial Parts, IC Programing and All Electronics Repairing
+              </div>
+              <div class="header-phone">Ph: 0333-1317152</div>
+            </div>
+          </div>
+        `;
+
+        // Watermark SVG HTML — properly bounded, no overflow
+        const watermarkHTML = `
+          <div class="watermark-container">
+            <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+              <!-- "Power" italic text — LEFT side -->
+              <text x="0" y="155"
+                font-family="Arial, sans-serif"
+                font-weight="900"
+                font-style="italic"
+                font-size="82"
+                fill="#4a6fa5">Power</text>
+
+              <!-- Shield outline — CENTRE (x 238-310, y 15-195) -->
+              <path d="M 274 15 L 310 28 L 310 118
+                       C 310 155 290 175 274 185
+                       C 258 175 238 155 238 118
+                       L 238 28 Z"
+                    fill="none" stroke="#4a6fa5" stroke-width="6" />
+
+              <!-- Lightning bolt inside shield -->
+              <path d="M 278 35 L 262 97 L 276 97 L 270 165 L 290 88 L 276 88 Z"
+                    fill="#4a6fa5" />
+
+              <!-- Red vertical divider line at left edge of shield -->
+              <line x1="236" y1="22" x2="236" y2="188"
+                    stroke="#e05e5e" stroke-width="4"/>
+
+              <!-- "Pro" italic text — RIGHT side -->
+              <text x="316" y="155"
+                font-family="Arial, sans-serif"
+                font-weight="900"
+                font-style="italic"
+                font-size="82"
+                fill="#4a6fa5">Pro</text>
+
+              <!-- ELECTRONICS ENGINEERING subtext -->
+              <text x="240" y="210"
+                font-family="Arial, sans-serif"
+                font-weight="700"
+                font-size="14"
+                fill="#4a6fa5"
+                text-anchor="middle"
+                letter-spacing="2.5">ELECTRONICS ENGINEERING</text>
+            </svg>
+          </div>
+        `;
+
+        // Date, Quotation pill, No, Party Name HTML
+        const metadataHTML = `
+          <div class="receipt-metadata-section">
+            <div class="meta-row-1">
+              <div class="date-field">
+                Date: <span class="underline-short" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #0b1f4c;">${formatDateString(state.date)}</span>
+              </div>
+              <div class="quotation-pill">QUOTATION</div>
+              <div class="number-field">
+                No # <span class="underline-short" style="width: 80px; font-family: 'Montserrat', sans-serif; font-weight: 700; color: #e05e5e;">${state.quotationNo || '313'}</span>
+              </div>
+            </div>
+            <div class="meta-row-2">
+              Party Name: <span class="underline-fill" style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-style: italic;">${state.partyName || ''}</span>
+            </div>
+          </div>
+        `;
+
+        // Calculate items on this page
+        const startIdx = pageIdx * itemsPerPage;
+        const endIdx = Math.min(startIdx + itemsPerPage, totalItems);
+        const pageItems = state.items.slice(startIdx, endIdx);
+
+        // Build Table Rows
+        let tableRowsHTML = '';
+        
+        // 1. Render actual items
+        pageItems.forEach((item, localIdx) => {
+          const itemIdx = startIdx + localIdx + 1;
+          const total = item.qty * item.rate;
+          tableRowsHTML += `
+            <tr>
+              <td class="col-sr">${itemIdx}</td>
+              <td class="col-desc">${item.description}</td>
+              <td class="col-qty">${item.qty}</td>
+              <td class="col-rate">${item.rate.toLocaleString()}/-</td>
+              <td class="col-amount">${total.toLocaleString()}/-</td>
+            </tr>
+          `;
+        });
+
+        // 2. Render blank/empty padding rows to fill up the sheet to 10 rows
+        const emptyRowsNeeded = itemsPerPage - pageItems.length;
+        for (let k = 0; k < emptyRowsNeeded; k++) {
+          tableRowsHTML += `
+            <tr class="empty-row">
+              <td class="col-sr"></td>
+              <td class="col-desc"></td>
+              <td class="col-qty"></td>
+              <td class="col-rate"></td>
+              <td class="col-amount"></td>
+            </tr>
+          `;
+        }
+
+        // 3. Render Proprietor/Stamp Row and Total Row inside the table grid
+        let bottomRowsHTML = '';
+        if (isLastPage) {
+          bottomRowsHTML = `
+            <!-- Proprietor / Stamp Row -->
+            <tr class="proprietor-row">
+              <td colspan="3" style="border-right: none; border-bottom: none;"></td>
+              <td colspan="2" style="border-left: none; border-bottom: none; border-top: none; text-align: center; vertical-align: middle; padding: 6px 8px;">
+                <div class="stamp-container">
+                  <div class="stamp-box">
+                    <div class="stamp-name-line">Power Pro Electronics</div>
+                    <div class="stamp-name-line">Engineering</div>
+                    <div class="stamp-divider"></div>
+                    <div class="stamp-proprietor">Proprietor</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <!-- Total Row -->
+            <tr>
+              <td colspan="3" style="border-top: none; border-right: none; border-bottom: 2px solid #e05e5e;"></td>
+              <td class="total-label-cell" style="border-bottom: 2px solid #e05e5e;">Total</td>
+              <td class="total-value-cell" style="border-bottom: 2px solid #e05e5e;">${grandTotal.toLocaleString()}/-</td>
+            </tr>
+          `;
+        } else {
+          // If not the last page, we render an empty proprietor space and "Continued..."
+          bottomRowsHTML = `
+            <tr class="proprietor-row">
+              <td colspan="3" style="border-right: none; border-bottom: none;"></td>
+              <td colspan="2" class="proprietor-label" style="border-left: none; border-bottom: none; border-top: none;">
+                Proprietor
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" style="border-top: none; border-right: none; border-bottom: 2px solid #e05e5e; font-style: italic; font-size: 11px; color: #e05e5e; font-weight: bold; text-align: left; padding-left: 10px;">
+                Continued on next page...
+              </td>
+              <td class="total-label-cell" style="border-bottom: 2px solid #e05e5e;">Total (Contd.)</td>
+              <td class="total-value-cell" style="border-bottom: 2px solid #e05e5e;">
+                ${state.items.slice(0, endIdx).reduce((sum, item) => sum + (item.qty * item.rate), 0).toLocaleString()}/-
+              </td>
+            </tr>
+          `;
+        }
+
+        // Footer Section
+        const footerHTML = `
+          <div class="receipt-footer-section">
+            <div class="footer-top">
+              <div>Goods once sold cannot be taken back or exchange</div>
+              <div class="signature-line-area">Signature: <span style="font-family: 'Caveat', cursive; font-size: 20px; font-weight: bold; border-bottom: 1.5px solid #e05e5e; padding: 0 15px; margin-left: 5px;">
+                ${isLastPage ? (state.signatureName || 'Abid Hussain') : ''}
+              </span></div>
+            </div>
+            <div class="footer-address">
+              H# 3L, Street# 01 Bambbi Stop Hospital Road Manga Mandi Lahore
+            </div>
+            <div class="footer-email">
+              Email: powerproelectronicsengineering@gmail.com
+            </div>
+          </div>
+        `;
+
+        // Assemble Page DOM
+        const pageDiv = document.createElement('div');
+        pageDiv.className = 'receipt-page';
+        if (state.showStamp && isLastPage) {
+          pageDiv.classList.add('show-stamp');
+        }
+
+        pageDiv.innerHTML = `
+          ${watermarkHTML}
+          ${headerHTML}
+          ${metadataHTML}
+          <div class="table-container">
+            <table class="receipt-table">
+              <thead>
+                <tr>
+                  <th width="8%">Sr.#</th>
+                  <th width="52%">Particulars</th>
+                  <th width="10%">Qty</th>
+                  <th width="15%">Rate</th>
+                  <th width="15%">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${tableRowsHTML}
+                ${bottomRowsHTML}
+              </tbody>
+            </table>
+          </div>
+          ${footerHTML}
+        `;
+
+        // Screen-only Page Number Indicator
+        const indicator = document.createElement('div');
+        indicator.className = 'page-indicator';
+        indicator.textContent = `Page ${pageIdx + 1} of ${totalPages}`;
+        
+        previewPanel.appendChild(indicator);
+        previewPanel.appendChild(pageDiv);
+      }
     }
-  };
-
-  window.onafterprint = () => {
-    // reset after printing
-    document.querySelectorAll(".footer").forEach(f => f.classList.remove("hide-print"));
-  };
-</script>
-
-
+  </script>
 </body>
 </html>
