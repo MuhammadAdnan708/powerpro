@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PowerPro Electronics - Professional Quotation System</title>
-  <!-- Google Fonts for premium look -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Poppins:wght@300;400;500;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PowerPro Electronics - Quotation & Invoice System</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Poppins:wght@300;400;500;600;700&family=Caveat:wght@700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* --------- Base & Layout Styles --------- */
+    /* --------- Base & Layout --------- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Poppins', sans-serif;
       background: #0f172a;
@@ -22,16 +25,14 @@
       overflow-x: hidden;
     }
 
-    /* App Workspace Container */
     .app-container {
       display: flex;
       width: 100%;
       height: 100vh;
     }
 
-    /* Left Editor Panel */
     .editor-panel {
-      width: 460px;
+      width: 480px;
       background: #1e293b;
       border-right: 1px solid #334155;
       padding: 24px;
@@ -44,7 +45,6 @@
       z-index: 10;
     }
 
-    /* Right Preview Panel */
     .preview-panel {
       flex-grow: 1;
       background: #0f172a;
@@ -57,22 +57,22 @@
       scroll-behavior: smooth;
     }
 
-    /* Scrollbars */
     .editor-panel::-webkit-scrollbar,
     .preview-panel::-webkit-scrollbar {
       width: 8px;
     }
+
     .editor-panel::-webkit-scrollbar-track,
     .preview-panel::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.1);
+      background: rgba(0, 0, 0, 0.1);
     }
+
     .editor-panel::-webkit-scrollbar-thumb,
     .preview-panel::-webkit-scrollbar-thumb {
       background: #475569;
       border-radius: 4px;
     }
 
-    /* ---- Editor Typography & UI Components ---- */
     h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -84,90 +84,107 @@
       border-bottom: 2px solid #334155;
       padding-bottom: 10px;
     }
+
     h3 {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #94a3b8;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
+
     .form-section {
       background: #0f172a;
-      padding: 16px;
+      padding: 14px;
       border-radius: 12px;
       border: 1px solid #334155;
     }
+
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
+
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-bottom: 12px;
+      gap: 5px;
+      margin-bottom: 10px;
     }
+
     .form-group.full-width {
       grid-column: span 2;
     }
+
     label {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 500;
       color: #94a3b8;
     }
+
     input[type="text"],
     input[type="number"],
     input[type="date"],
-    textarea {
+    textarea,
+    select {
       background: #1e293b;
       border: 1px solid #475569;
       border-radius: 6px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       color: white;
       font-family: 'Poppins', sans-serif;
       font-size: 13px;
       width: 100%;
       transition: all 0.2s ease;
     }
-    input:focus, textarea:focus {
+
+    input:focus,
+    textarea:focus,
+    select:focus {
       outline: none;
       border-color: #38bdf8;
       box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
     }
-    
-    /* Item List Editor */
+
+    select {
+      cursor: pointer;
+    }
+
     .item-list-container {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 8px;
-      max-height: 250px;
+      margin-top: 6px;
+      max-height: 230px;
       overflow-y: auto;
       padding-right: 4px;
     }
+
     .item-editor-card {
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      position: relative;
+      gap: 7px;
     }
+
     .item-editor-row {
       display: flex;
       gap: 10px;
     }
+
     .item-editor-actions {
       display: flex;
       justify-content: flex-end;
-      gap: 8px;
+      gap: 6px;
       border-top: 1px solid #334155;
-      padding-top: 8px;
+      padding-top: 7px;
     }
+
     .icon-btn {
       background: transparent;
       border: none;
@@ -178,33 +195,37 @@
       font-size: 12px;
       transition: all 0.2s;
     }
+
     .icon-btn:hover {
       color: white;
       background: #475569;
     }
+
     .icon-btn.delete:hover {
       color: #ef4444;
       background: rgba(239, 68, 68, 0.1);
     }
 
-    /* Switch Component */
     .switch-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 4px 0;
     }
+
     .switch {
       position: relative;
       display: inline-block;
       width: 44px;
       height: 22px;
     }
+
     .switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
+
     .slider {
       position: absolute;
       cursor: pointer;
@@ -216,6 +237,7 @@
       transition: .3s;
       border-radius: 22px;
     }
+
     .slider:before {
       position: absolute;
       content: "";
@@ -227,14 +249,15 @@
       transition: .3s;
       border-radius: 50%;
     }
-    input:checked + .slider {
+
+    input:checked+.slider {
       background-color: #38bdf8;
     }
-    input:checked + .slider:before {
+
+    input:checked+.slider:before {
       transform: translateX(22px);
     }
 
-    /* Action Buttons in Editor */
     .action-buttons {
       display: flex;
       flex-direction: column;
@@ -243,57 +266,138 @@
       border-top: 1px solid #334155;
       padding-top: 20px;
     }
+
     .btn {
-      padding: 12px;
+      padding: 11px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 13.5px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       transition: all 0.3s;
     }
+
     .btn-primary {
       background: #38bdf8;
       color: #0f172a;
     }
+
     .btn-primary:hover {
       background: #0ea5e9;
       transform: translateY(-1px);
     }
+
     .btn-secondary {
       background: #334155;
       color: #f1f5f9;
     }
+
     .btn-secondary:hover {
       background: #475569;
     }
+
     .btn-danger {
       background: #ef4444;
       color: white;
     }
+
     .btn-danger:hover {
       background: #dc2626;
     }
 
-    /* Add Item Form */
     .add-item-form {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       background: #1e293b;
-      padding: 12px;
+      padding: 11px;
       border-radius: 8px;
       border: 1px dashed #475569;
     }
 
-    /* -------- Preview Sheet Styles (A4 Page) -------- */
+    /* Document Type Tabs */
+    .mode-tabs {
+      display: flex;
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 4px;
+      border: 1px solid #334155;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 7px;
+      font-weight: 700;
+      font-size: 13px;
+      color: #94a3b8;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .mode-tab.active {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    .mode-tab:not(.active):hover {
+      color: #e2e8f0;
+    }
+
+    /* Radio pills */
+    .radio-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .radio-pill {
+      flex: 1;
+      min-width: 90px;
+      position: relative;
+    }
+
+    .radio-pill input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .radio-pill span {
+      display: block;
+      text-align: center;
+      padding: 8px 6px;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #94a3b8;
+    }
+
+    .radio-pill input:checked+span {
+      background: #38bdf8;
+      color: #0f172a;
+      border-color: #38bdf8;
+    }
+
+    .radio-pill span:hover {
+      border-color: #38bdf8;
+    }
+
+    /* ---------- Preview Sheet (A4) ---------- */
     .receipt-page {
       width: 210mm;
-      height: 297mm;
+      min-height: auto;
       background: white;
       color: #0b1f4c;
       padding: 15mm 15mm;
@@ -305,15 +409,15 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    /* SVG logo and Watermark */
     .logo-container {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
     .watermark-container {
       position: absolute;
-      top: 54%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 75%;
@@ -324,7 +428,22 @@
       overflow: hidden;
     }
 
-    /* Header formatting */
+    .table-container {
+      position: relative;
+    }
+
+    .table-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 380px;
+      opacity: 0.10;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .receipt-header {
       display: flex;
       justify-content: space-between;
@@ -333,12 +452,14 @@
       padding-bottom: 10px;
       z-index: 2;
     }
+
     .header-left {
       width: 40%;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
+
     .header-right {
       width: 60%;
       text-align: right;
@@ -346,6 +467,7 @@
       flex-direction: column;
       gap: 4px;
     }
+
     .header-title-main {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
@@ -354,6 +476,7 @@
       letter-spacing: -0.5px;
       line-height: 1.1;
     }
+
     .header-sub-deals {
       font-size: 9.5px;
       color: #0b1f4c;
@@ -361,14 +484,14 @@
       line-height: 1.3;
       margin-top: 2px;
     }
+
     .header-phone {
       font-size: 11px;
       font-weight: 800;
       color: #0b1f4c;
       margin-top: 4px;
     }
-    
-    /* NTN Badge */
+
     .ntn-badge {
       background: #0b1f4c;
       color: white;
@@ -381,24 +504,26 @@
       align-self: flex-start;
     }
 
-    /* Metadata details rows (Date, Quotation pill, No, Party Name) */
     .receipt-metadata-section {
       margin-top: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       z-index: 2;
     }
+
     .meta-row-1 {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .date-field {
       width: 35%;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: bold;
     }
+
     .quotation-pill {
       background: #0b1f4c;
       color: white;
@@ -409,27 +534,46 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
+
+    .quotation-pill.invoice-pill {
+      background: #e05e5e;
+    }
+
     .number-field {
       width: 30%;
       text-align: right;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: bold;
     }
+
     .meta-row-2 {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: bold;
       display: flex;
       align-items: center;
     }
+
+    .meta-row-3 {
+      display: flex;
+      gap: 20px;
+      font-size: 11.5px;
+      font-weight: bold;
+    }
+
+    .meta-row-3>div {
+      flex: 1;
+    }
+
     .underline-fill {
       flex-grow: 1;
       border-bottom: 1.5px solid #e05e5e;
       margin-left: 6px;
       font-weight: bold;
       color: #0b1f4c;
-      font-size: 14px;
+      font-size: 13.5px;
       padding-bottom: 2px;
     }
+
     .underline-short {
       border-bottom: 1.5px solid #e05e5e;
       display: inline-block;
@@ -439,129 +583,208 @@
       padding-bottom: 2px;
     }
 
-    /* Red Ledger Table */
     .table-container {
-      margin-top: 15px;
-      flex-grow: 1;
+      margin-top: 14px;
       z-index: 2;
       position: relative;
     }
+
     .receipt-table {
       width: 100%;
       border-collapse: collapse;
       border: 2px solid #e05e5e;
     }
+
     .receipt-table th {
       background: #0b1f4c;
       color: white;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 800;
-      padding: 10px 6px;
+      padding: 9px 6px;
       text-transform: uppercase;
       border: 1px solid #e05e5e;
       text-align: center;
     }
+
     .receipt-table td {
       border: 1px solid #e05e5e;
-      padding: 4px 10px;
-      font-size: 12.5px;
+      padding: 3px 10px;
+      font-size: 12px;
       color: #000000;
       vertical-align: middle;
-      height: 32px;
+      height: 26px;
     }
-    
-    /* Specific Column alignments */
-    .col-sr { text-align: center; font-weight: bold; }
-    .col-desc { text-align: left; font-weight: 600; }
-    .col-qty { text-align: center; font-weight: 600; }
-    .col-rate { text-align: right; font-weight: 600; }
-    .col-amount { text-align: right; font-weight: 600; }
 
-    /* Empty/Blank rows custom styling */
+    .col-sr {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .col-desc {
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .col-qty {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .col-rate {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .col-amount {
+      text-align: right;
+      font-weight: 600;
+    }
+
     .empty-row td {
-      height: 32px;
+      height: 26px;
     }
 
-    /* Proprietor and Total Area (inside the table style layout) */
     .proprietor-row td {
-      height: 75px;
+      height: 55px;
       position: relative;
       vertical-align: middle;
-      padding: 6px 8px;
+      padding: 4px 8px;
     }
+
     .proprietor-label {
       text-align: center;
       font-weight: 800;
-      font-size: 12px;
+      font-size: 11.5px;
       color: #0b1f4c;
       text-transform: uppercase;
     }
+
     .total-label-cell {
+      text-align: right;
+      font-weight: 800;
+      font-size: 12.5px;
+      background: #f8fafc;
+      border-top: 2px solid #e05e5e;
+    }
+
+    .total-value-cell {
       text-align: right;
       font-weight: 800;
       font-size: 13px;
       background: #f8fafc;
       border-top: 2px solid #e05e5e;
     }
-    .total-value-cell {
-      text-align: right;
-      font-weight: 800;
-      font-size: 13.5px;
-      background: #f8fafc;
-      border-top: 2px solid #e05e5e;
+
+    .grand-total-row td {
+      background: #0b1f4c;
+      color: white !important;
+      font-size: 13px !important;
+      font-weight: 900 !important;
     }
 
-    /* Stamp Styling */
+    /* Terms & Remarks */
+    .terms-remarks-block {
+      margin-top: 6px;
+      border: 1.5px solid #0b1f4c;
+      border-radius: 4px;
+      padding: 4px 10px;
+      z-index: 2;
+      position: relative;
+      background: #f8fafc;
+      flex-shrink: 0;
+    }
+
+    .terms-title {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #0b1f4c;
+      letter-spacing: 0.6px;
+      margin-bottom: 2px;
+      border-bottom: 1.5px solid #0b1f4c;
+      padding-bottom: 2px;
+    }
+
+    .terms-list {
+      list-style: none;
+      font-size: 10.5px;
+      color: #0b1f4c;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .terms-list li:before {
+      content: "•";
+      margin-right: 6px;
+      color: #e05e5e;
+      font-weight: 900;
+    }
+
+    .terms-thankyou {
+      margin-top: 4px;
+      text-align: center;
+      font-size: 10px;
+      color: #0b1f4c;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* Stamp */
     .stamp-container {
-      display: none; /* toggled by show-stamp class */
+      display: none;
       margin: 0 auto 4px auto;
       text-align: center;
     }
+
     .receipt-page.show-stamp .stamp-container {
       display: block;
     }
+
     .stamp-box {
       display: inline-block;
       border: 2px solid #1a3b8b;
       outline: 1px solid #1a3b8b;
       outline-offset: 3px;
-      padding: 8px 16px;
+      padding: 7px 15px;
       color: #1a3b8b;
       background: rgba(220, 230, 255, 0.12);
       text-align: center;
       font-family: Arial, Helvetica, sans-serif;
       font-weight: 800;
-      font-size: 12px;
+      font-size: 11.5px;
       line-height: 1.5;
       min-width: 140px;
     }
+
     .stamp-name-line {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 800;
       letter-spacing: 0.3px;
       color: #1a3b8b;
     }
+
     .stamp-divider {
       border-bottom: 1px solid #1a3b8b;
       margin: 5px 0;
     }
+
     .stamp-proprietor {
       text-align: right;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #1a3b8b;
     }
 
-    /* Footer styling */
     .receipt-footer-section {
-      margin-top: 15px;
+      margin-top: 10px;
       border-top: 1px solid #e05e5e;
-      padding-top: 10px;
+      padding-top: 9px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       z-index: 2;
     }
+
     .footer-top {
       display: flex;
       justify-content: space-between;
@@ -569,6 +792,7 @@
       font-weight: 700;
       font-style: italic;
     }
+
     .footer-address {
       font-size: 10px;
       font-weight: 800;
@@ -576,18 +800,19 @@
       line-height: 1.3;
       margin-top: 2px;
     }
+
     .footer-email {
       font-size: 9.5px;
       font-weight: 800;
       text-align: center;
       color: #0b1f4c;
     }
+
     .signature-line-area {
       font-size: 12px;
       font-weight: 800;
     }
 
-    /* Pagination Indicator (Screen only) */
     .page-indicator {
       align-self: flex-end;
       background: #1e293b;
@@ -599,13 +824,16 @@
       border: 1px solid #334155;
     }
 
-    /* -------- Print-Specific Styling -------- */
+    /* Print */
     @page {
       size: A4 portrait;
       margin: 0;
     }
+
     @media print {
-      body, html {
+
+      body,
+      html {
         background: white !important;
         color: black !important;
         margin: 0 !important;
@@ -613,13 +841,16 @@
         height: auto !important;
         overflow: visible !important;
       }
+
       .app-container {
         display: block !important;
         height: auto !important;
       }
+
       .editor-panel {
-        display: none !important; /* Hide editor on print */
+        display: none !important;
       }
+
       .preview-panel {
         background: white !important;
         padding: 0 !important;
@@ -627,69 +858,63 @@
         overflow: visible !important;
         display: block !important;
       }
+
       .receipt-page {
         box-shadow: none !important;
         margin: 0 !important;
         border: none !important;
         width: 210mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
-        overflow: hidden !important;
+        min-height: 297mm !important;
         page-break-after: always !important;
         break-after: page !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
-      .receipt-table th {
-        background: #0b1f4c !important;
-        color: white !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
+
+      .receipt-table th,
+      .grand-total-row td,
       .stamp-box {
-        border: 2px solid #1a3b8b !important;
-        outline: 1px solid #1a3b8b !important;
-        color: #1a3b8b !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
+
       .page-indicator {
         display: none !important;
       }
     }
 
-    /* Responsive stacked layout for small screens */
     @media (max-width: 1024px) {
       .app-container {
         flex-direction: column;
         height: auto;
       }
+
       .editor-panel {
         width: 100%;
         height: auto;
-        max-height: 600px;
+        max-height: 650px;
         border-right: none;
         border-bottom: 1px solid #334155;
       }
+
       .preview-panel {
         width: 100%;
         overflow-y: visible;
         padding: 15px;
       }
+
       .receipt-page {
         width: 100%;
-        height: auto;
-        aspect-ratio: 1 / 1.414;
         min-height: auto;
         padding: 5%;
       }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- SVG Distressed Filter for Ink Stamp (Hidden from view) -->
-  <svg style="position: absolute; width: 0; height: 0;">
+  <svg style="position:absolute;width:0;height:0;">
     <defs>
       <filter id="stamp-distress">
         <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" />
@@ -699,26 +924,36 @@
   </svg>
 
   <div class="app-container">
-    
-    <!-- LEFT PANEL: CONTROL PANEL -->
+
+    <!-- LEFT EDITOR PANEL -->
     <div class="editor-panel">
-      <h2><i class="fas fa-file-invoice-dollar"></i> Quotation Pad</h2>
-      
-      <!-- General Form Metadata -->
+      <h2><i class="fas fa-file-invoice-dollar"></i> Document Pad</h2>
+
+      <!-- Document Type Tabs -->
+      <div class="mode-tabs">
+        <button class="mode-tab active" id="tab-quotation" onclick="setDocType('quotation')">
+          <i class="fas fa-file-alt"></i> Quotation
+        </button>
+        <button class="mode-tab" id="tab-invoice" onclick="setDocType('invoice')">
+          <i class="fas fa-file-invoice"></i> Invoice
+        </button>
+      </div>
+
+      <!-- Document Info -->
       <div class="form-section">
-        <h3>Quotation Info</h3>
+        <h3 id="doc-info-heading">Quotation Info</h3>
         <div class="form-grid">
           <div class="form-group">
             <label for="input-date">Date</label>
             <input type="date" id="input-date">
           </div>
           <div class="form-group">
-            <label for="input-no">Quotation No #</label>
+            <label id="doc-no-label" for="input-no">Quotation No #</label>
             <input type="text" id="input-no" placeholder="313">
           </div>
           <div class="form-group full-width">
             <label for="input-party">Party Name</label>
-            <input type="text" id="input-party" placeholder="Nishat mills LTD #27">
+            <input type="text" id="input-party" placeholder="Nishat Mills Ltd #27">
           </div>
           <div class="form-group">
             <label for="input-ntn">NTN #</label>
@@ -729,12 +964,65 @@
             <input type="text" id="input-sig" placeholder="Abid Hussain">
           </div>
         </div>
+
+        <div id="quotation-only-fields" class="form-grid">
+          <div class="form-group">
+            <label for="input-ogp">OGP No #</label>
+            <input type="text" id="input-ogp" placeholder="OGP-001">
+          </div>
+          <div class="form-group">
+            <label for="input-inquiry">Inquiry No #</label>
+            <input type="text" id="input-inquiry" placeholder="INQ-2024-001">
+          </div>
+        </div>
+
+        <div id="invoice-only-fields" class="form-grid" style="display:none;">
+          <div class="form-group full-width">
+            <label for="input-po">Purchase Order No #</label>
+            <input type="text" id="input-po" placeholder="PO-2024-001">
+          </div>
+        </div>
+      </div>
+
+      <!-- Tax Settings -->
+      <div class="form-section">
+        <h3>Tax Settings</h3>
+        <div class="radio-row" style="margin-bottom: 10px;">
+          <label class="radio-pill">
+            <input type="radio" name="tax-mode" value="included" id="tax-included" checked>
+            <span>Tax Included</span>
+          </label>
+          <label class="radio-pill">
+            <input type="radio" name="tax-mode" value="excluded" id="tax-excluded">
+            <span>Tax Not Included</span>
+          </label>
+        </div>
+        <div id="tax-rate-group" class="radio-row">
+          <label class="radio-pill">
+            <input type="radio" name="tax-rate" value="16_pra" id="tax-pra" checked>
+            <span>16% PRA</span>
+          </label>
+          <label class="radio-pill">
+            <input type="radio" name="tax-rate" value="18_fbr" id="tax-fbr">
+            <span>18% FBR</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Warranty -->
+      <div class="form-section">
+        <h3>Warranty</h3>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="input-warranty">Warranty (Months)</label>
+          <input type="number" id="input-warranty" placeholder="e.g. 2, 5, 6" min="0" step="1">
+        </div>
       </div>
 
       <!-- Stamp Option -->
       <div class="form-section">
         <div class="switch-container">
-          <label style="font-weight: 600; font-size: 13px; color: #38bdf8;" for="toggle-stamp-input">Apply Blue Proprietor Stamp</label>
+          <label style="font-weight: 600; font-size: 12.5px; color: #38bdf8;" for="toggle-stamp-input">Apply Blue
+            Proprietor Stamp</label>
           <label class="switch">
             <input type="checkbox" id="toggle-stamp-input" checked>
             <span class="slider"></span>
@@ -742,36 +1030,34 @@
         </div>
       </div>
 
-      <!-- Add New Item Form -->
+      <!-- Add Item -->
       <div class="form-section">
-        <h3>Add Quotation Item</h3>
+        <h3>Add Item</h3>
         <div class="add-item-form">
-          <div class="form-group" style="margin-bottom: 0;">
+          <div class="form-group" style="margin-bottom:0;">
             <label for="item-desc">Particulars (Description)</label>
             <textarea id="item-desc" rows="2" placeholder="e.g. corolab Jeck 4 pin with wire for Accog"></textarea>
           </div>
-          <div class="form-grid" style="margin-top: 5px;">
-            <div class="form-group" style="margin-bottom: 0;">
+          <div class="form-grid" style="margin-top:4px;">
+            <div class="form-group" style="margin-bottom:0;">
               <label for="item-qty">Qty</label>
               <input type="number" id="item-qty" value="1" min="1">
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
+            <div class="form-group" style="margin-bottom:0;">
               <label for="item-rate">Rate (PKR)</label>
               <input type="number" id="item-rate" value="0" min="0" step="1">
             </div>
           </div>
-          <button class="btn btn-primary" id="btn-add-item" style="margin-top: 10px; width: 100%;">
+          <button class="btn btn-primary" id="btn-add-item" style="margin-top:8px; width:100%;">
             <i class="fas fa-plus"></i> Add to List
           </button>
         </div>
       </div>
 
-      <!-- Items List & Reorder -->
-      <div class="form-section" style="flex-grow: 1; min-height: 150px; display: flex; flex-direction: column;">
+      <!-- Items List -->
+      <div class="form-section" style="flex-grow:1; min-height:150px; display:flex; flex-direction:column;">
         <h3>Items Added (<span id="items-count">0</span>)</h3>
-        <div class="item-list-container" id="editor-items-list">
-          <!-- Dynamically populated -->
-        </div>
+        <div class="item-list-container" id="editor-items-list"></div>
       </div>
 
       <!-- Actions -->
@@ -786,448 +1072,416 @@
           <i class="fas fa-trash-alt"></i> Clear All Items
         </button>
       </div>
-
     </div>
 
-    <!-- RIGHT PANEL: HIGH-FIDELITY LIVE PREVIEW -->
-    <div class="preview-panel" id="preview-panel">
-      <!-- Dynamically populated A4 receipt sheets (using pagination) -->
-    </div>
-
+    <!-- RIGHT PREVIEW PANEL -->
+    <div class="preview-panel" id="preview-panel"></div>
   </div>
 
   <script>
-    // System State
+    /* ============================================================
+       STATE
+       ============================================================ */
+    const defaultItems = [{ description: 'corolab Jeck 4 pin with wire for Accog', qty: 50, rate: 1500 }];
+
     const state = {
+      docType: 'quotation',
       date: new Date().toISOString().substr(0, 10),
       quotationNo: '313',
-      partyName: 'Nishat mills LTD #27',
+      invoiceNo: 'INV-1001',
+      partyName: 'Nishat Mills Ltd #27',
       ntn: '9650940-6',
       signatureName: 'Abid Hussain',
+      ogpNo: '',
+      inquiryNo: '',
+      poNo: '',
+      warrantyMonths: '',
+      taxMode: 'included',
+      taxRate: '16_pra',
       showStamp: true,
-      items: [
-        { description: 'corolab Jeck 4 pin with wire for Accog', qty: 50, rate: 1500 }
-      ]
+      items: [...defaultItems]
     };
 
-    // DOM Elements
-    const inputDate = document.getElementById('input-date');
-    const inputNo = document.getElementById('input-no');
-    const inputParty = document.getElementById('input-party');
-    const inputNtn = document.getElementById('input-ntn');
-    const inputSig = document.getElementById('input-sig');
-    const toggleStamp = document.getElementById('toggle-stamp-input');
-    
-    const itemDesc = document.getElementById('item-desc');
-    const itemQty = document.getElementById('item-qty');
-    const itemRate = document.getElementById('item-rate');
-    const btnAddItem = document.getElementById('btn-add-item');
-    const editorItemsList = document.getElementById('editor-items-list');
-    const itemsCountEl = document.getElementById('items-count');
-    const previewPanel = document.getElementById('preview-panel');
+    /* ============================================================
+       DOM
+       ============================================================ */
+    const $ = id => document.getElementById(id);
+    const inputDate = $('input-date'), inputNo = $('input-no'), inputParty = $('input-party'),
+      inputNtn = $('input-ntn'), inputSig = $('input-sig'),
+      inputOgp = $('input-ogp'), inputInquiry = $('input-inquiry'), inputPo = $('input-po'),
+      inputWarranty = $('input-warranty'),
+      toggleStamp = $('toggle-stamp-input');
+    const itemDesc = $('item-desc'), itemQty = $('item-qty'), itemRate = $('item-rate'),
+      btnAddItem = $('btn-add-item'), editorItemsList = $('editor-items-list'),
+      itemsCountEl = $('items-count'), previewPanel = $('preview-panel');
 
-    // Initialize Page
+    /* ============================================================
+       HELPERS
+       ============================================================ */
+    function taxMeta() {
+      if (state.taxMode !== 'included') return { rate: 0, label: '' };
+      if (state.taxRate === '16_pra') return { rate: 16, label: '16% PRA' };
+      return { rate: 18, label: '18% FBR' };
+    }
+
+    /* Ab tax amount bhi Terms mein show hoga */
+    function buildTerms() {
+      const terms = [];
+      if (state.taxMode === 'included') {
+        const meta = taxMeta();
+        terms.push(`Tax included — ${meta.label}`);
+      } else {
+        terms.push('Tax not included in this payment.');
+      }
+      const w = parseInt(state.warrantyMonths, 10);
+      if (!isNaN(w) && w > 0) {
+        terms.push(`${w} month${w === 1 ? '' : 's'} warranty`);
+      }
+      terms.push('<strong>The payment should be made by cash or through bank.</strong>');
+      return terms;
+    }
+
+    function computeTotals() {
+      const subTotal = state.items.reduce((s, it) => s + it.qty * it.rate, 0);
+      const meta = taxMeta();
+      let grandTotal = subTotal;
+      if (state.taxMode === 'included' && meta.rate > 0) {
+        grandTotal = subTotal; // no double-charging
+      }
+      return { subTotal, grandTotal };
+    }
+
+    function formatDateString(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d)) return dateStr;
+      return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+    }
+
+    function currentDocNo() {
+      return state.docType === 'quotation' ? state.quotationNo : state.invoiceNo;
+    }
+
+    /* ============================================================
+       EVENTS
+       ============================================================ */
+    function setDocType(type) {
+      state.docType = type;
+      $('tab-quotation').classList.toggle('active', type === 'quotation');
+      $('tab-invoice').classList.toggle('active', type === 'invoice');
+      $('quotation-only-fields').style.display = type === 'quotation' ? 'grid' : 'none';
+      $('invoice-only-fields').style.display = type === 'invoice' ? 'grid' : 'none';
+      $('doc-info-heading').textContent = type === 'quotation' ? 'Quotation Info' : 'Invoice Info';
+      $('doc-no-label').textContent = type === 'quotation' ? 'Quotation No #' : 'Invoice No #';
+      inputNo.value = currentDocNo();
+      render();
+    }
+
+    function refreshTaxUI() {
+      $('tax-rate-group').style.display = state.taxMode === 'included' ? 'flex' : 'none';
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      // Sync form with initial state
       inputDate.value = state.date;
-      inputNo.value = state.quotationNo;
+      inputNo.value = currentDocNo();
       inputParty.value = state.partyName;
       inputNtn.value = state.ntn;
       inputSig.value = state.signatureName;
+      inputOgp.value = state.ogpNo;
+      inputInquiry.value = state.inquiryNo;
+      inputPo.value = state.poNo;
+      inputWarranty.value = state.warrantyMonths;
       toggleStamp.checked = state.showStamp;
 
-      // Event Listeners for Editor
-      inputDate.addEventListener('input', (e) => { state.date = e.target.value; render(); });
-      inputNo.addEventListener('input', (e) => { state.quotationNo = e.target.value; render(); });
-      inputParty.addEventListener('input', (e) => { state.partyName = e.target.value; render(); });
-      inputNtn.addEventListener('input', (e) => { state.ntn = e.target.value; render(); });
-      inputSig.addEventListener('input', (e) => { state.signatureName = e.target.value; render(); });
-      toggleStamp.addEventListener('change', (e) => { state.showStamp = e.target.checked; render(); });
+      inputDate.oninput = e => { state.date = e.target.value; render(); };
+      inputNo.oninput = e => {
+        if (state.docType === 'quotation') state.quotationNo = e.target.value;
+        else state.invoiceNo = e.target.value;
+        render();
+      };
+      inputParty.oninput = e => { state.partyName = e.target.value; render(); };
+      inputNtn.oninput = e => { state.ntn = e.target.value; render(); };
+      inputSig.oninput = e => { state.signatureName = e.target.value; render(); };
+      inputOgp.oninput = e => { state.ogpNo = e.target.value; render(); };
+      inputInquiry.oninput = e => { state.inquiryNo = e.target.value; render(); };
+      inputPo.oninput = e => { state.poNo = e.target.value; render(); };
+      inputWarranty.oninput = e => { state.warrantyMonths = e.target.value; render(); };
+      toggleStamp.onchange = e => { state.showStamp = e.target.checked; render(); };
 
-      btnAddItem.addEventListener('click', addItem);
+      document.querySelectorAll('input[name="tax-mode"]').forEach(r => {
+        r.onchange = e => { state.taxMode = e.target.value; refreshTaxUI(); render(); };
+      });
+      document.querySelectorAll('input[name="tax-rate"]').forEach(r => {
+        r.onchange = e => { state.taxRate = e.target.value; render(); };
+      });
 
-      // Perform initial render
+      btnAddItem.onclick = addItem;
+      refreshTaxUI();
       render();
     });
 
-    // Format Date beautifully to match handwriting
-    function formatDateString(dateStr) {
-      if (!dateStr) return '';
-      const date = new Date(dateStr);
-      if (isNaN(date)) return dateStr;
-      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-    }
-
-    // Add Item to State
+    /* ============================================================
+       ITEM ACTIONS
+       ============================================================ */
     function addItem() {
       const desc = itemDesc.value.trim();
       const qty = parseInt(itemQty.value) || 1;
       const rate = parseFloat(itemRate.value) || 0;
-
-      if (!desc) {
-        alert('Please enter an item description.');
-        itemDesc.focus();
-        return;
-      }
-
+      if (!desc) { alert('Please enter an item description.'); itemDesc.focus(); return; }
       state.items.push({ description: desc, qty, rate });
-      
-      // Reset Item Fields
-      itemDesc.value = '';
-      itemQty.value = '1';
-      itemRate.value = '0';
-      itemDesc.focus();
-
+      itemDesc.value = ''; itemQty.value = '1'; itemRate.value = '0'; itemDesc.focus();
       render();
     }
+    function deleteItem(i) { state.items.splice(i, 1); render(); }
+    function moveItemUp(i) { if (i === 0) return;[state.items[i - 1], state.items[i]] = [state.items[i], state.items[i - 1]]; render(); }
+    function moveItemDown(i) { if (i === state.items.length - 1) return;[state.items[i + 1], state.items[i]] = [state.items[i], state.items[i + 1]]; render(); }
+    function clearAllItems() { if (confirm('Delete all items?')) { state.items = []; render(); } }
 
-    // Delete Item
-    function deleteItem(index) {
-      state.items.splice(index, 1);
-      render();
-    }
-
-    // Move Item Up
-    function moveItemUp(index) {
-      if (index === 0) return;
-      const temp = state.items[index];
-      state.items[index] = state.items[index - 1];
-      state.items[index - 1] = temp;
-      render();
-    }
-
-    // Move Item Down
-    function moveItemDown(index) {
-      if (index === state.items.length - 1) return;
-      const temp = state.items[index];
-      state.items[index] = state.items[index + 1];
-      state.items[index + 1] = temp;
-      render();
-    }
-
-    // Clear All Items
-    function clearAllItems() {
-      if (confirm('Are you sure you want to delete all items?')) {
-        state.items = [];
-        render();
-      }
-    }
-
-    // Reset Default State
     function resetForm() {
-      if (confirm('Reset form fields to default?')) {
-        state.date = new Date().toISOString().substr(0, 10);
-        state.quotationNo = '313';
-        state.partyName = 'Nishat mills LTD #27';
-        state.ntn = '9650940-6';
-        state.signatureName = 'Abid Hussain';
-        state.showStamp = true;
-        state.items = [
-          { description: 'corolab Jeck 4 pin with wire for Accog', qty: 50, rate: 1500 }
-        ];
-
-        inputDate.value = state.date;
-        inputNo.value = state.quotationNo;
-        inputParty.value = state.partyName;
-        inputNtn.value = state.ntn;
-        inputSig.value = state.signatureName;
-        toggleStamp.checked = state.showStamp;
-
-        render();
-      }
+      if (!confirm('Reset form fields to default?')) return;
+      Object.assign(state, {
+        date: new Date().toISOString().substr(0, 10),
+        quotationNo: '313', invoiceNo: 'INV-1001',
+        partyName: 'Nishat Mills Ltd #27', ntn: '9650940-6',
+        signatureName: 'Abid Hussain',
+        ogpNo: '', inquiryNo: '', poNo: '', warrantyMonths: '',
+        taxMode: 'included', taxRate: '16_pra',
+        showStamp: true,
+        items: [...defaultItems]
+      });
+      inputDate.value = state.date;
+      inputNo.value = currentDocNo();
+      inputParty.value = state.partyName;
+      inputNtn.value = state.ntn;
+      inputSig.value = state.signatureName;
+      inputOgp.value = state.ogpNo;
+      inputInquiry.value = state.inquiryNo;
+      inputPo.value = state.poNo;
+      inputWarranty.value = state.warrantyMonths;
+      toggleStamp.checked = state.showStamp;
+      $('tax-included').checked = true;
+      $('tax-pra').checked = true;
+      refreshTaxUI();
+      render();
     }
+    function printReceipt() { window.print(); }
 
-    // Print Receipt Page
-    function printReceipt() {
-      window.print();
-    }
-
-    // Main Render Function
+    /* ============================================================
+       RENDER
+       ============================================================ */
     function render() {
-      // 1. Render Editor Items List
       renderEditorItems();
-
-      // 2. Render A4 Print Preview Pages
       renderPreviewSheets();
     }
 
-    // Render Items inside Left Editor panel
     function renderEditorItems() {
       editorItemsList.innerHTML = '';
       itemsCountEl.textContent = state.items.length;
-
       state.items.forEach((item, index) => {
-        const itemCard = document.createElement('div');
-        itemCard.className = 'item-editor-card';
-        itemCard.innerHTML = `
-          <div style="font-size: 13.5px; font-weight: 600; word-break: break-word;">
-            ${index + 1}. ${item.description}
-          </div>
-          <div class="item-editor-row" style="font-size: 12px; color: #94a3b8;">
-            <div>Qty: <span style="color: white; font-weight:600;">${item.qty}</span></div>
-            <div>Rate: <span style="color: white; font-weight:600;">${item.rate} PKR</span></div>
-            <div style="margin-left: auto;">Total: <span style="color: #38bdf8; font-weight:600;">${(item.qty * item.rate).toFixed(2)} PKR</span></div>
-          </div>
-          <div class="item-editor-actions">
-            <button class="icon-btn" onclick="moveItemUp(${index})" title="Move Up"><i class="fas fa-chevron-up"></i></button>
-            <button class="icon-btn" onclick="moveItemDown(${index})" title="Move Down"><i class="fas fa-chevron-down"></i></button>
-            <button class="icon-btn delete" onclick="deleteItem(${index})" title="Delete"><i class="fas fa-trash-alt"></i></button>
-          </div>
-        `;
-        editorItemsList.appendChild(itemCard);
+        const card = document.createElement('div');
+        card.className = 'item-editor-card';
+        card.innerHTML = `
+      <div style="font-size:13px;font-weight:600;word-break:break-word;">${index + 1}. ${item.description}</div>
+      <div class="item-editor-row" style="font-size:11.5px;color:#94a3b8;">
+        <div>Qty: <span style="color:white;font-weight:600;">${item.qty}</span></div>
+        <div>Rate: <span style="color:white;font-weight:600;">${item.rate} PKR</span></div>
+        <div style="margin-left:auto;">Total: <span style="color:#38bdf8;font-weight:600;">${(item.qty * item.rate).toFixed(2)} PKR</span></div>
+      </div>
+      <div class="item-editor-actions">
+        <button class="icon-btn" onclick="moveItemUp(${index})"><i class="fas fa-chevron-up"></i></button>
+        <button class="icon-btn" onclick="moveItemDown(${index})"><i class="fas fa-chevron-down"></i></button>
+        <button class="icon-btn delete" onclick="deleteItem(${index})"><i class="fas fa-trash-alt"></i></button>
+      </div>`;
+        editorItemsList.appendChild(card);
       });
     }
 
-    // Render dynamic A4 pages based on pagination logic (10 items max per page)
     function renderPreviewSheets() {
       previewPanel.innerHTML = '';
-      const itemsPerPage = 10;
+      const itemsPerPage = 8;
       const totalItems = state.items.length;
       const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+      const totals = computeTotals();
+      const isQuotation = state.docType === 'quotation';
+      const docTitle = isQuotation ? 'QUOTATION' : 'INVOICE';
+      const terms = buildTerms();
 
-      // Calculate Grand Total
-      const grandTotal = state.items.reduce((sum, item) => sum + (item.qty * item.rate), 0);
+      for (let p = 0; p < totalPages; p++) {
+        const isLast = p === totalPages - 1;
 
-      // Render each page
-      for (let pageIdx = 0; pageIdx < totalPages; pageIdx++) {
-        const isLastPage = (pageIdx === totalPages - 1);
-        
-        // Header HTML
+        /* HEADER */
         const headerHTML = `
-          <div class="receipt-header">
-            <div class="header-left">
-              <div class="logo-container">
-                <svg viewBox="0 0 160 50" class="logo-svg" style="height: 52px; width: auto;">
-                  <!-- Shield logo background/stroke -->
-                  <g transform="translate(64, 2)">
-                    <path d="M 12 2 C 18 2, 22 4, 22 4 C 22 15, 18 22, 12 26 C 6 22, 2 15, 2 4 C 2 4, 6 2, 12 2 Z" fill="#ffffff" stroke="#0b1f4c" stroke-width="2"/>
-                    <path d="M 12 5 L 8 13 L 13 13 L 11 22 L 17 12 L 12 12 Z" fill="#e05e5e"/>
-                  </g>
-                  <text x="0" y="24" font-family="'Montserrat', sans-serif" font-weight="900" font-style="italic" font-size="21" fill="#0b1f4c">Power</text>
-                  <text x="94" y="24" font-family="'Montserrat', sans-serif" font-weight="900" font-style="italic" font-size="21" fill="#0b1f4c">Pro</text>
-                  <text x="0" y="42" font-family="'Montserrat', sans-serif" font-weight="700" font-size="7.5" fill="#0b1f4c" letter-spacing="1.8">ELECTRONICS ENGINEERING</text>
-                </svg>
-              </div>
-              <div class="ntn-badge">NTN# ${state.ntn || '9650940-6'}</div>
-            </div>
-            <div class="header-right">
-              <div class="header-title-main">POWER PRO ELECTRONICS</div>
-              <div class="header-title-main" style="margin-top: -2px;">ENGINEERING</div>
-              <div class="header-sub-deals">
-                Deals in: Ics, Transistor, Module, LCD, Diode, Connector, SMD<br>
-                Industrial Parts, IC Programing and All Electronics Repairing
-              </div>
-              <div class="header-phone">Ph: 0333-1317152</div>
-            </div>
-          </div>
-        `;
-
-        // Watermark SVG HTML — properly bounded, no overflow
-        const watermarkHTML = `
-          <div class="watermark-container">
-            <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
-              <!-- "Power" italic text — LEFT side -->
-              <text x="0" y="155"
-                font-family="Arial, sans-serif"
-                font-weight="900"
-                font-style="italic"
-                font-size="82"
-                fill="#4a6fa5">Power</text>
-
-              <!-- Shield outline — CENTRE (x 238-310, y 15-195) -->
-              <path d="M 274 15 L 310 28 L 310 118
-                       C 310 155 290 175 274 185
-                       C 258 175 238 155 238 118
-                       L 238 28 Z"
-                    fill="none" stroke="#4a6fa5" stroke-width="6" />
-
-              <!-- Lightning bolt inside shield -->
-              <path d="M 278 35 L 262 97 L 276 97 L 270 165 L 290 88 L 276 88 Z"
-                    fill="#4a6fa5" />
-
-              <!-- Red vertical divider line at left edge of shield -->
-              <line x1="236" y1="22" x2="236" y2="188"
-                    stroke="#e05e5e" stroke-width="4"/>
-
-              <!-- "Pro" italic text — RIGHT side -->
-              <text x="316" y="155"
-                font-family="Arial, sans-serif"
-                font-weight="900"
-                font-style="italic"
-                font-size="82"
-                fill="#4a6fa5">Pro</text>
-
-              <!-- ELECTRONICS ENGINEERING subtext -->
-              <text x="240" y="210"
-                font-family="Arial, sans-serif"
-                font-weight="700"
-                font-size="14"
-                fill="#4a6fa5"
-                text-anchor="middle"
-                letter-spacing="2.5">ELECTRONICS ENGINEERING</text>
+      <div class="receipt-header">
+        <div class="header-left">
+          <div class="logo-container">
+            <svg viewBox="0 0 160 50" style="height:52px;width:auto;">
+              <g transform="translate(64,2)">
+                <path d="M 12 2 C 18 2, 22 4, 22 4 C 22 15, 18 22, 12 26 C 6 22, 2 15, 2 4 C 2 4, 6 2, 12 2 Z" fill="#ffffff" stroke="#0b1f4c" stroke-width="2"/>
+                <path d="M 12 5 L 8 13 L 13 13 L 11 22 L 17 12 L 12 12 Z" fill="#e05e5e"/>
+              </g>
+              <text x="0" y="24" font-family="'Montserrat',sans-serif" font-weight="900" font-style="italic" font-size="21" fill="#0b1f4c">Power</text>
+              <text x="94" y="24" font-family="'Montserrat',sans-serif" font-weight="900" font-style="italic" font-size="21" fill="#0b1f4c">Pro</text>
+              <text x="0" y="42" font-family="'Montserrat',sans-serif" font-weight="700" font-size="7.5" fill="#0b1f4c" letter-spacing="1.8">ELECTRONICS ENGINEERING</text>
             </svg>
           </div>
-        `;
-
-        // Date, Quotation pill, No, Party Name HTML
-        const metadataHTML = `
-          <div class="receipt-metadata-section">
-            <div class="meta-row-1">
-              <div class="date-field">
-                Date: <span class="underline-short" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #0b1f4c;">${formatDateString(state.date)}</span>
-              </div>
-              <div class="quotation-pill">QUOTATION</div>
-              <div class="number-field">
-                No # <span class="underline-short" style="width: 80px; font-family: 'Montserrat', sans-serif; font-weight: 700; color: #e05e5e;">${state.quotationNo || '313'}</span>
-              </div>
-            </div>
-            <div class="meta-row-2">
-              Party Name: <span class="underline-fill" style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-style: italic;">${state.partyName || ''}</span>
-            </div>
+          <div class="ntn-badge">NTN# ${state.ntn || '9650940-6'}</div>
+        </div>
+        <div class="header-right">
+          <div class="header-title-main">POWER PRO ELECTRONICS</div>
+          <div class="header-title-main" style="margin-top:-2px;">ENGINEERING</div>
+          <div class="header-sub-deals">
+            Deals in: Ics, Transistor, Module, LCD, Diode, Connector, SMD<br>
+            Industrial Parts, IC Programing and All Electronics Repairing
           </div>
-        `;
+          <div class="header-phone">Ph: 0333-1317152</div>
+        </div>
+      </div>`;
 
-        // Calculate items on this page
-        const startIdx = pageIdx * itemsPerPage;
+        /* WATERMARK */
+        const watermarkHTML = `<!-- watermark moved inside table -->`;
+        /* METADATA */
+        let extraMetaHTML = '';
+        if (isQuotation) {
+          const ogpLine = state.ogpNo ? `<div>OGP No #: <span style="color:#e05e5e;">${state.ogpNo}</span></div>` : '';
+          const inqLine = state.inquiryNo ? `<div>Inquiry No #: <span style="color:#e05e5e;">${state.inquiryNo}</span></div>` : '';
+          if (ogpLine || inqLine) extraMetaHTML = `<div class="meta-row-3">${ogpLine}${inqLine}</div>`;
+        } else {
+          if (state.poNo) extraMetaHTML = `<div class="meta-row-3"><div>Purchase Order No #: <span style="color:#e05e5e;">${state.poNo}</span></div></div>`;
+        }
+
+        const metadataHTML = `
+      <div class="receipt-metadata-section">
+        <div class="meta-row-1">
+          <div class="date-field">Date: <span class="underline-short" style="font-family:'Montserrat',sans-serif;font-weight:700;color:#0b1f4c;">${formatDateString(state.date)}</span></div>
+          <div class="quotation-pill ${isQuotation ? '' : 'invoice-pill'}">${docTitle}</div>
+          <div class="number-field">${isQuotation ? 'Quotation' : 'Invoice'} No # <span class="underline-short" style="width:80px;font-family:'Montserrat',sans-serif;font-weight:700;color:#e05e5e;">${currentDocNo() || ''}</span></div>
+        </div>
+        <div class="meta-row-2">Party Name: <span class="underline-fill" style="font-family:'Montserrat',sans-serif;font-weight:700;font-style:italic;">${state.partyName || ''}</span></div>
+        ${extraMetaHTML}
+      </div>`;
+
+        /* TABLE ROWS */
+        const startIdx = p * itemsPerPage;
         const endIdx = Math.min(startIdx + itemsPerPage, totalItems);
         const pageItems = state.items.slice(startIdx, endIdx);
-
-        // Build Table Rows
         let tableRowsHTML = '';
-        
-        // 1. Render actual items
-        pageItems.forEach((item, localIdx) => {
-          const itemIdx = startIdx + localIdx + 1;
+
+        pageItems.forEach((item, li) => {
+          const idx = startIdx + li + 1;
           const total = item.qty * item.rate;
           tableRowsHTML += `
-            <tr>
-              <td class="col-sr">${itemIdx}</td>
-              <td class="col-desc">${item.description}</td>
-              <td class="col-qty">${item.qty}</td>
-              <td class="col-rate">${item.rate.toLocaleString()}/-</td>
-              <td class="col-amount">${total.toLocaleString()}/-</td>
-            </tr>
-          `;
+        <tr>
+          <td class="col-sr">${idx}</td>
+          <td class="col-desc">${item.description}</td>
+          <td class="col-qty">${item.qty}</td>
+          <td class="col-rate">${item.rate.toLocaleString()}/-</td>
+          <td class="col-amount">${total.toLocaleString()}/-</td>
+        </tr>`;
         });
 
-        // 2. Render blank/empty padding rows to fill up the sheet to 10 rows
         const emptyRowsNeeded = itemsPerPage - pageItems.length;
         for (let k = 0; k < emptyRowsNeeded; k++) {
-          tableRowsHTML += `
-            <tr class="empty-row">
-              <td class="col-sr"></td>
-              <td class="col-desc"></td>
-              <td class="col-qty"></td>
-              <td class="col-rate"></td>
-              <td class="col-amount"></td>
-            </tr>
-          `;
+          tableRowsHTML += `<tr class="empty-row"><td class="col-sr"></td><td class="col-desc"></td><td class="col-qty"></td><td class="col-rate"></td><td class="col-amount"></td></tr>`;
         }
 
-        // 3. Render Proprietor/Stamp Row and Total Row inside the table grid
+        /* BOTTOM ROWS — sirf Grand Total, koi tax/subtotal row nahi */
         let bottomRowsHTML = '';
-        if (isLastPage) {
+        if (isLast) {
           bottomRowsHTML = `
-            <!-- Proprietor / Stamp Row -->
-            <tr class="proprietor-row">
-              <td colspan="3" style="border-right: none; border-bottom: none;"></td>
-              <td colspan="2" style="border-left: none; border-bottom: none; border-top: none; text-align: center; vertical-align: middle; padding: 6px 8px;">
-                <div class="stamp-container">
-                  <div class="stamp-box">
-                    <div class="stamp-name-line">Power Pro Electronics</div>
-                    <div class="stamp-name-line">Engineering</div>
-                    <div class="stamp-divider"></div>
-                    <div class="stamp-proprietor">Proprietor</div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <!-- Total Row -->
-            <tr>
-              <td colspan="3" style="border-top: none; border-right: none; border-bottom: 2px solid #e05e5e;"></td>
-              <td class="total-label-cell" style="border-bottom: 2px solid #e05e5e;">Total</td>
-              <td class="total-value-cell" style="border-bottom: 2px solid #e05e5e;">${grandTotal.toLocaleString()}/-</td>
-            </tr>
-          `;
+        <tr class="proprietor-row">
+          <td colspan="3" style="border-right:none;border-bottom:none;"></td>
+          <td colspan="2" style="border-left:none;border-bottom:none;border-top:none;text-align:center;vertical-align:middle;padding:6px 8px;">
+            <div class="stamp-container">
+              <div class="stamp-box">
+                <div class="stamp-name-line">Power Pro Electronics</div>
+                <div class="stamp-name-line">Engineering</div>
+                <div class="stamp-divider"></div>
+                <div class="stamp-proprietor">Proprietor</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr class="grand-total-row">
+          <td colspan="3" style="border-right:none;"></td>
+          <td style="text-align:right;">${isQuotation ? 'Grand Total' : 'Total Payable'}</td>
+          <td style="text-align:right;">${totals.grandTotal.toLocaleString()}/-</td>
+        </tr>`;
         } else {
-          // If not the last page, we render an empty proprietor space and "Continued..."
+          const runningTotal = state.items.slice(0, endIdx).reduce((s, it) => s + it.qty * it.rate, 0);
           bottomRowsHTML = `
-            <tr class="proprietor-row">
-              <td colspan="3" style="border-right: none; border-bottom: none;"></td>
-              <td colspan="2" class="proprietor-label" style="border-left: none; border-bottom: none; border-top: none;">
-                Proprietor
-              </td>
-            </tr>
-            <tr>
-              <td colspan="3" style="border-top: none; border-right: none; border-bottom: 2px solid #e05e5e; font-style: italic; font-size: 11px; color: #e05e5e; font-weight: bold; text-align: left; padding-left: 10px;">
-                Continued on next page...
-              </td>
-              <td class="total-label-cell" style="border-bottom: 2px solid #e05e5e;">Total (Contd.)</td>
-              <td class="total-value-cell" style="border-bottom: 2px solid #e05e5e;">
-                ${state.items.slice(0, endIdx).reduce((sum, item) => sum + (item.qty * item.rate), 0).toLocaleString()}/-
-              </td>
-            </tr>
-          `;
+        <tr class="proprietor-row">
+          <td colspan="3" style="border-right:none;border-bottom:none;"></td>
+          <td colspan="2" class="proprietor-label" style="border-left:none;border-bottom:none;border-top:none;">Proprietor</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="border-top:none;border-right:none;border-bottom:2px solid #e05e5e;font-style:italic;font-size:11px;color:#e05e5e;font-weight:bold;text-align:left;padding-left:10px;">Continued on next page...</td>
+          <td class="total-label-cell" style="border-bottom:2px solid #e05e5e;">Total (Contd.)</td>
+          <td class="total-value-cell" style="border-bottom:2px solid #e05e5e;">${runningTotal.toLocaleString()}/-</td>
+        </tr>`;
         }
 
-        // Footer Section
-        const footerHTML = `
-          <div class="receipt-footer-section">
-            <div class="footer-top">
-              <div>Goods once sold cannot be taken back or exchange</div>
-              <div class="signature-line-area">Signature: <span style="font-family: 'Caveat', cursive; font-size: 20px; font-weight: bold; border-bottom: 1.5px solid #e05e5e; padding: 0 15px; margin-left: 5px;">
-                ${isLastPage ? (state.signatureName || 'Abid Hussain') : ''}
-              </span></div>
-            </div>
-            <div class="footer-address">
-              H# 3L, Street# 01 Bambbi Stop Hospital Road Manga Mandi Lahore
-            </div>
-            <div class="footer-email">
-              Email: powerproelectronicsengineering@gmail.com
-            </div>
-          </div>
-        `;
+        /* TERMS & REMARKS */
+        const termsHTML = (terms.length > 0) ? `
+      <div class="terms-remarks-block">
+        <div class="terms-title">Terms &amp; Remarks</div>
+        <ul class="terms-list">
+          ${terms.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+        <div class="terms-thankyou">
+          Thank you for your purchase &nbsp;|&nbsp; For Power Pro Electronics Engineering &nbsp;|&nbsp; Ph: 03001458122
+        </div>
+      </div>` : '';
 
-        // Assemble Page DOM
+        /* FOOTER */
+        const footerHTML = `
+      <div class="receipt-footer-section">
+        <div class="footer-top">
+          <div>Goods once sold are returnable and exchangeable anytime.</div>
+          <div class="signature-line-area">Signature: <span style="font-family:'Caveat',cursive;font-size:20px;font-weight:bold;border-bottom:1.5px solid #e05e5e;padding:0 15px;margin-left:5px;">
+            ${isLast ? (state.signatureName || '') : ''}
+          </span></div>
+        </div>
+        <div class="footer-address">H# 3L, Street# 01 Bambbi Stop Hospital Road Manga Mandi Lahore</div>
+        <div class="footer-email">Email: powerproelectronicsengineering@gmail.com</div>
+      </div>`;
+
+        /* ASSEMBLE */
         const pageDiv = document.createElement('div');
         pageDiv.className = 'receipt-page';
-        if (state.showStamp && isLastPage) {
-          pageDiv.classList.add('show-stamp');
-        }
+        if (state.showStamp && isLast) pageDiv.classList.add('show-stamp');
+        pageDiv.innerHTML = headerHTML + metadataHTML +
+          `<div class="table-container">
+         <div class="table-watermark">
+           <svg viewBox="0 0 480 220" style="width:100%;height:auto;display:block;">
+             <text x="0" y="155" font-family="Arial,sans-serif" font-weight="900" font-style="italic" font-size="82" fill="#4a6fa5">Power</text>
+             <path d="M 274 15 L 310 28 L 310 118 C 310 155 290 175 274 185 C 258 175 238 155 238 118 L 238 28 Z" fill="none" stroke="#4a6fa5" stroke-width="6"/>
+             <path d="M 278 35 L 262 97 L 276 97 L 270 165 L 290 88 L 276 88 Z" fill="#4a6fa5"/>
+             <line x1="236" y1="22" x2="236" y2="188" stroke="#e05e5e" stroke-width="4"/>
+             <text x="316" y="155" font-family="Arial,sans-serif" font-weight="900" font-style="italic" font-size="82" fill="#4a6fa5">Pro</text>
+             <text x="240" y="210" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#4a6fa5" text-anchor="middle" letter-spacing="2.5">ELECTRONICS ENGINEERING</text>
+           </svg>
+         </div>
+         <table class="receipt-table">
+           <thead><tr>
+             <th width="8%">Sr.#</th>
+             <th width="52%">Particulars</th>
+             <th width="10%">Qty</th>
+             <th width="15%">Rate</th>
+             <th width="15%">Amount</th>
+           </tr></thead>
+           <tbody>${tableRowsHTML}${bottomRowsHTML}</tbody>
+         </table>
+       </div>` + termsHTML + footerHTML;
 
-        pageDiv.innerHTML = `
-          ${watermarkHTML}
-          ${headerHTML}
-          ${metadataHTML}
-          <div class="table-container">
-            <table class="receipt-table">
-              <thead>
-                <tr>
-                  <th width="8%">Sr.#</th>
-                  <th width="52%">Particulars</th>
-                  <th width="10%">Qty</th>
-                  <th width="15%">Rate</th>
-                  <th width="15%">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${tableRowsHTML}
-                ${bottomRowsHTML}
-              </tbody>
-            </table>
-          </div>
-          ${footerHTML}
-        `;
-
-        // Screen-only Page Number Indicator
         const indicator = document.createElement('div');
         indicator.className = 'page-indicator';
-        indicator.textContent = `Page ${pageIdx + 1} of ${totalPages}`;
-        
+        indicator.textContent = `${docTitle} — Page ${p + 1} of ${totalPages}`;
+
         previewPanel.appendChild(indicator);
         previewPanel.appendChild(pageDiv);
       }
     }
   </script>
 </body>
+
 </html>
