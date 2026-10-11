@@ -1298,7 +1298,7 @@
 
     function renderPreviewSheets() {
       previewPanel.innerHTML = '';
-      const itemsPerPage = 8;
+      const itemsPerPage = 16;
       const totalItems = state.items.length;
       const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
       const totals = computeTotals();
